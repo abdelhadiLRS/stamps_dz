@@ -3,10 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ذاكرة الجزائر | الأرشيف الرقمي للطوابع البريدية</title>
+    <title data-translate="siteTitle">ذاكرة الجزائر | الأرشيف الرقمي للطوابع البريدية</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'algerian-green': '#006233',
+                        'algerian-red': '#D21034',
+                        'heritage-gold': '#C5A059',
+                        'dark': '#1a202c',
+                    }
+                }
+            }
+        }
+    </script>
     
     <!-- Google Fonts - Tajawal -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -145,54 +159,6 @@
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            animation: fadeIn 0.3s ease;
-            backdrop-filter: blur(3px);
-        }
-
-        .modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            background: white;
-            padding: 0;
-            border-radius: 16px;
-            max-width: 700px;
-            width: 90%;
-            animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-        }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
         }
 
         /* النصوص الذهبية */
@@ -337,10 +303,19 @@
             left: 100%;
         }
 
-        /* تأثير المقاطع */
-        .section-divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #ddd, transparent);
+        /* تأثيرات الفلترة */
+        .filter-panel {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+        }
+
+        .filter-panel.active {
+            max-height: 500px;
+            opacity: 1;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         /* Responsive */
@@ -353,22 +328,6 @@
                 width: 300px;
                 height: 300px;
             }
-        }
-
-        /* تأثير الحمل */
-        @keyframes shimmer {
-            0% {
-                background-position: -1000px 0;
-            }
-            100% {
-                background-position: 1000px 0;
-            }
-        }
-
-        .loading-shimmer {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 1000px 100%;
-            animation: shimmer 2s infinite;
         }
     </style>
 </head>
@@ -384,44 +343,63 @@
                         <i class="fas fa-envelope-open text-white text-xl" style="transform: skewX(-10deg);"></i>
                     </div>
                     <div>
-                        <h1 class="text-xl font-bold text-algerian-green">ذاكرة الجزائر</h1>
-                        <p class="text-xs text-gray-600">أرشيف الطوابع الرقمي</p>
+                        <h1 class="text-xl font-bold text-algerian-green" data-translate="siteTitle">ذاكرة الجزائر</h1>
+                        <p class="text-xs text-gray-600" data-translate="siteSubtitle">أرشيف الطوابع الرقمي</p>
                     </div>
                 </div>
 
                 <!-- الروابط -->
                 <div class="hidden md:flex items-center gap-8">
-                    <a href="#gallery" class="text-gray-700 hover:text-algerian-green font-medium transition relative group">
+                    <a href="#gallery" class="text-gray-700 hover:text-algerian-green font-medium transition relative group" data-translate="mainGallery">
                         المعرض الرئيسي
                         <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-algerian-green group-hover:w-full transition-all duration-300"></span>
                     </a>
-                    <a href="#eras" class="text-gray-700 hover:text-algerian-green font-medium transition relative group">
+                    <a href="#eras" class="text-gray-700 hover:text-algerian-green font-medium transition relative group" data-translate="eras">
                         الحقب الزمنية
                         <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-algerian-green group-hover:w-full transition-all duration-300"></span>
                     </a>
-                    <a href="#collections" class="text-gray-700 hover:text-algerian-green font-medium transition relative group">
+                    <a href="#collections" class="text-gray-700 hover:text-algerian-green font-medium transition relative group" data-translate="collections">
                         المجموعات
                         <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-algerian-green group-hover:w-full transition-all duration-300"></span>
                     </a>
-                    <a href="#about" class="text-gray-700 hover:text-algerian-green font-medium transition relative group">
+                    <a href="#about" class="text-gray-700 hover:text-algerian-green font-medium transition relative group" data-translate="about">
                         عن الأرشيف
                         <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-algerian-green group-hover:w-full transition-all duration-300"></span>
                     </a>
                 </div>
 
-                <!-- البحث -->
-                <div class="hidden sm:flex items-center">
+                <!-- البحث واللغة -->
+                <div class="hidden sm:flex items-center gap-4">
                     <div class="relative">
-                        <input type="text" id="searchInput" placeholder="ابحث عن طابع..." 
+                        <input type="text" id="searchInput" placeholder="ابحث عن طابع..." data-translate-placeholder="searchPlaceholder"
                                class="search-input py-2 pr-4 pl-10 border border-gray-300 rounded-full text-sm focus:outline-none w-64 transition-all">
                         <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"></i>
                     </div>
+
+                    <!-- زر تبديل اللغة -->
+                    <button id="langToggle" onclick="toggleLanguage()" class="px-4 py-2 bg-heritage-gold text-white rounded-full text-sm font-bold hover:bg-opacity-90 transition transform hover:scale-105 shadow-sm">
+                        English
+                    </button>
                 </div>
 
-                <!-- زر القائمة للأجهزة الصغيرة -->
-                <button class="md:hidden text-algerian-green text-xl hover:scale-110 transition">
-                    <i class="fas fa-bars"></i>
-                </button>
+                <!-- أجهزة الموبايل - أزرار القائمة واللغة -->
+                <div class="flex items-center gap-2 md:hidden">
+                    <button id="langToggleMobile" onclick="toggleLanguage()" class="px-3 py-1 bg-heritage-gold text-white rounded-full text-xs font-bold hover:bg-opacity-90 transition">
+                        English
+                    </button>
+                    <button onclick="toggleMobileSearch()" class="text-algerian-green text-xl hover:scale-110 transition mr-2">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- حقل البحث للجوال -->
+        <div id="mobileSearchContainer" class="hidden px-4 pb-4 md:hidden border-t border-gray-100 bg-white">
+            <div class="relative mt-2">
+                <input type="text" id="searchInputMobile" placeholder="ابحث عن طابع..." data-translate-placeholder="searchPlaceholder"
+                       class="search-input w-full py-2 pr-4 pl-10 border border-gray-300 rounded-full text-sm focus:outline-none transition-all">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"></i>
             </div>
         </div>
     </nav>
@@ -431,24 +409,24 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <div class="space-y-6 animate-slide-in-left">
-                    <h2 class="text-5xl md:text-6xl font-bold leading-tight">
+                    <h2 class="text-5xl md:text-6xl font-bold leading-tight" data-translate="heroTitle">
                         طوابع تروي
                         <span class="text-gradient-gold block">قصة وطن</span>
                     </h2>
-                    <p class="text-lg text-gray-100 leading-relaxed">
+                    <p class="text-lg text-gray-100 leading-relaxed" data-translate="heroSubtitle">
                         اكتشف مجموعة فريدة من الطوابع البريدية الجزائرية التي توثق تاريخ الوطن منذ الاستقلال، 
                         كل طابع يحكي قصة من قصص النضال والحضارة والفخر الوطني.
                     </p>
                     <a href="#gallery" class="bg-heritage-gold hover:bg-yellow-600 text-algerian-green font-bold py-3 px-8 rounded-full transition transform hover:scale-105 inline-flex items-center gap-2 glow-effect btn-animated shadow-lg">
-                        <i class="fas fa-arrow-left"></i>
-                        تصفح الأرشيف
+                        <i class="fas fa-compass"></i>
+                        <span data-translate="browseBtn">تصفح الأرشيف</span>
                     </a>
                 </div>
 
                 <div class="flex justify-center animate-slide-in-right">
-                    <div class="stamp-frame p-6 tilted-image">
+                    <div class="stamp-frame p-6 tilted-image cursor-pointer hover:scale-105 transition" onclick="location.href='#gallery'">
                         <div class="bg-gradient-to-br from-algerian-green to-algerian-red p-1 rounded">
-                            <img src="/extracted_stamps/page_7_stamp_1.png" alt="طابع تذكاري" class="w-full h-auto rounded" style="aspect-ratio: 3/4; object-fit: cover; background: white;">
+                            <img src="./extracted_stamps/page_7_stamp_1.png" alt="طابع تذكاري" class="w-full h-auto rounded" style="aspect-ratio: 3/4; object-fit: cover; background: white;">
                         </div>
                         <div class="mt-4 text-center">
                             <p class="font-bold text-algerian-green">wheat sheaves</p>
@@ -464,50 +442,50 @@
     <section id="eras" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h3 class="text-4xl font-bold text-algerian-green mb-4">الحقب الزمنية</h3>
-                <p class="text-gray-600 text-lg">تطور الطوابع البريدية عبر مراحل التاريخ الجزائري</p>
+                <h3 class="text-4xl font-bold text-algerian-green mb-4" data-translate="eraTitle">الحقب الزمنية</h3>
+                <p class="text-gray-600 text-lg" data-translate="eraSubtitle">تطور الطوابع البريدية عبر مراحل التاريخ الجزائري</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- البطاقة الأولى -->
-                <div class="zoom-on-hover card-hover rounded-lg overflow-hidden group">
-                    <div class="relative h-64 bg-cover bg-center" style="background-image: url('https://via.placeholder.com/500x300/8B4513/ffffff?text=ما+قبل+الاستقلال');">
+                <div class="zoom-on-hover card-hover rounded-lg overflow-hidden group cursor-pointer" onclick="filterByEra('1830')">
+                    <div class="relative h-64 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=500');">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60 group-hover:opacity-50 transition duration-300"></div>
                         <div class="absolute inset-0 flex flex-col justify-end p-6 text-white">
-                            <h4 class="text-2xl font-bold">فترة ما قبل الاستقلال</h4>
+                            <h4 class="text-2xl font-bold" data-translate="era1Title">فترة ما قبل الاستقلال</h4>
                             <p class="text-sm text-gray-200">1830 - 1962</p>
                         </div>
                     </div>
                     <div class="p-6 bg-gray-50">
-                        <p class="text-gray-700">الطوابع البريدية الفرنسية المستخدمة في الجزائر قبل استقلالها.</p>
+                        <p class="text-gray-700" data-translate="era1Desc">الطوابع البريدية الفرنسية المستخدمة في الجزائر قبل استقلالها.</p>
                     </div>
                 </div>
 
                 <!-- البطاقة الثانية -->
-                <div class="zoom-on-hover card-hover rounded-lg overflow-hidden group border-t-4 border-algerian-red">
-                    <div class="relative h-64 bg-cover bg-center" style="background-image: url('https://via.placeholder.com/500x300/00AA55/ffffff?text=فجر+الاستقلال');">
+                <div class="zoom-on-hover card-hover rounded-lg overflow-hidden group border-t-4 border-algerian-red cursor-pointer" onclick="filterByEra('1962')">
+                    <div class="relative h-64 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&q=80&w=500');">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60 group-hover:opacity-50 transition duration-300"></div>
                         <div class="absolute inset-0 flex flex-col justify-end p-6 text-white">
-                            <h4 class="text-2xl font-bold">فجر الاستقلال</h4>
+                            <h4 class="text-2xl font-bold" data-translate="era2Title">فجر الاستقلال</h4>
                             <p class="text-sm text-gray-200">1962 - 1970</p>
                         </div>
                     </div>
                     <div class="p-6 bg-gray-50">
-                        <p class="text-gray-700">أول الطوابع الجزائرية الوطنية بعد الاستقلال مباشرة.</p>
+                        <p class="text-gray-700" data-translate="era2Desc">أول الطوابع الجزائرية الوطنية بعد الاستقلال مباشرة.</p>
                     </div>
                 </div>
 
                 <!-- البطاقة الثالثة -->
-                <div class="zoom-on-hover card-hover rounded-lg overflow-hidden group">
-                    <div class="relative h-64 bg-cover bg-center" style="background-image: url('https://via.placeholder.com/500x300/1a1a2e/ffffff?text=الجمهورية+الحديثة');">
+                <div class="zoom-on-hover card-hover rounded-lg overflow-hidden group cursor-pointer" onclick="filterByEra('1970')">
+                    <div class="relative h-64 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&q=80&w=500');">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60 group-hover:opacity-50 transition duration-300"></div>
                         <div class="absolute inset-0 flex flex-col justify-end p-6 text-white">
-                            <h4 class="text-2xl font-bold">الجمهورية الحديثة</h4>
+                            <h4 class="text-2xl font-bold" data-translate="era3Title">الجمهورية الحديثة</h4>
                             <p class="text-sm text-gray-200">1970 - الآن</p>
                         </div>
                     </div>
                     <div class="p-6 bg-gray-50">
-                        <p class="text-gray-700">تطور الهوية البصرية والموضوعات الوطنية للطوابع.</p>
+                        <p class="text-gray-700" data-translate="era3Desc">تطور الهوية البصرية والموضوعات الوطنية للطوابع.</p>
                     </div>
                 </div>
             </div>
@@ -518,45 +496,45 @@
     <section id="collections" class="py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h3 class="text-4xl font-bold text-algerian-green mb-4">المجموعات الموضوعية</h3>
-                <p class="text-gray-600 text-lg">استكشف الطوابع حسب الموضوعات الرئيسية</p>
+                <h3 class="text-4xl font-bold text-algerian-green mb-4" data-translate="collectionTitle">المجموعات الموضوعية</h3>
+                <p class="text-gray-600 text-lg" data-translate="collectionSubtitle">استكشف الطوابع حسب الموضوعات الرئيسية</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- الثورة التحريرية -->
-                <div class="card-hover collection-revolution p-8 rounded-lg group">
+                <div class="card-hover collection-revolution p-8 rounded-lg group cursor-pointer" onclick="filterByTheme('revolution', 'flag', 'moudhahid', 'warrior')">
                     <div class="flex items-center justify-center w-16 h-16 bg-algerian-red rounded-full mb-6 mx-auto text-white text-2xl transform group-hover:scale-125 transition duration-300">
                         <i class="fas fa-flag"></i>
                     </div>
-                    <h4 class="text-xl font-bold text-algerian-green mb-2 text-center">الثورة التحريرية</h4>
-                    <p class="text-gray-600 text-center mb-4">طوابع توثق المراحل الكبرى للثورة التحريرية.</p>
+                    <h4 class="text-xl font-bold text-algerian-green mb-2 text-center" data-translate="coll1Title">الثورة التحريرية</h4>
+                    <p class="text-gray-600 text-center mb-4" data-translate="coll1Desc">طوابع توثق المراحل الكبرى للثورة التحريرية.</p>
                 </div>
 
                 <!-- الصناعات التقليدية -->
-                <div class="card-hover collection-crafts p-8 rounded-lg group">
+                <div class="card-hover collection-crafts p-8 rounded-lg group cursor-pointer" onclick="filterByTheme('rug', 'pottery', 'weaving', 'jewelery', 'saddle')">
                     <div class="flex items-center justify-center w-16 h-16 bg-heritage-gold rounded-full mb-6 mx-auto text-white text-2xl transform group-hover:scale-125 transition duration-300">
                         <i class="fas fa-mask"></i>
                     </div>
-                    <h4 class="text-xl font-bold text-algerian-green mb-2 text-center">الصناعات التقليدية</h4>
-                    <p class="text-gray-600 text-center mb-4">فن وحرف جزائرية تراثية عبر الطوابع.</p>
+                    <h4 class="text-xl font-bold text-algerian-green mb-2 text-center" data-translate="coll2Title">الصناعات التقليدية</h4>
+                    <p class="text-gray-600 text-center mb-4" data-translate="coll2Desc">فن وحرف جزائرية تراثية عبر الطوابع.</p>
                 </div>
 
                 <!-- الطبيعة والبيئة -->
-                <div class="card-hover collection-nature p-8 rounded-lg group">
+                <div class="card-hover collection-nature p-8 rounded-lg group cursor-pointer" onclick="filterByTheme('flower', 'nature', 'fauna', 'animal', 'ostrich', 'stork', 'fox', 'hyena')">
                     <div class="flex items-center justify-center w-16 h-16 bg-algerian-green rounded-full mb-6 mx-auto text-white text-2xl transform group-hover:scale-125 transition duration-300">
                         <i class="fas fa-leaf"></i>
                     </div>
-                    <h4 class="text-xl font-bold text-algerian-green mb-2 text-center">الطبيعة والبيئة</h4>
-                    <p class="text-gray-600 text-center mb-4">الثروة الطبيعية والتنوع البيولوجي الجزائري.</p>
+                    <h4 class="text-xl font-bold text-algerian-green mb-2 text-center" data-translate="coll3Title">الطبيعة والبيئة</h4>
+                    <p class="text-gray-600 text-center mb-4" data-translate="coll3Desc">الثروة الطبيعية والتنوع البيولوجي الجزائري.</p>
                 </div>
 
                 <!-- شخصيات تاريخية -->
-                <div class="card-hover collection-figures p-8 rounded-lg group">
+                <div class="card-hover collection-figures p-8 rounded-lg group cursor-pointer" onclick="filterByTheme('emir', 'portrait', 'histor', 'figures', 'ahmed bey')">
                     <div class="flex items-center justify-center w-16 h-16 bg-dark rounded-full mb-6 mx-auto text-white text-2xl transform group-hover:scale-125 transition duration-300">
                         <i class="fas fa-monument"></i>
                     </div>
-                    <h4 class="text-xl font-bold text-algerian-green mb-2 text-center">شخصيات تاريخية</h4>
-                    <p class="text-gray-600 text-center mb-4">أعظم قادة وشخصيات جزائرية عبر التاريخ.</p>
+                    <h4 class="text-xl font-bold text-algerian-green mb-2 text-center" data-translate="coll4Title">شخصيات تاريخية</h4>
+                    <p class="text-gray-600 text-center mb-4" data-translate="coll4Desc">أعظم قادة وشخصيات جزائرية عبر التاريخ.</p>
                 </div>
             </div>
         </div>
@@ -567,20 +545,49 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row items-center justify-between mb-12 gap-6">
                 <div>
-                    <h3 class="text-4xl font-bold text-algerian-green mb-2">المعرض الرئيسي</h3>
-                    <p class="text-gray-600">تصفح مجموعتنا الكاملة من الطوابع</p>
+                    <h3 class="text-4xl font-bold text-algerian-green mb-2" data-translate="galleryTitle">المعرض الرئيسي</h3>
+                    <p class="text-gray-600" data-translate="gallerySubtitle">تصفح مجموعتنا الكاملة من الطوابع</p>
                 </div>
 
                 <!-- أزرار التصفية -->
                 <div class="flex gap-3 flex-wrap justify-center md:justify-end">
-                    <button class="px-6 py-2 bg-algerian-green text-white rounded-full font-medium hover:bg-opacity-90 transition transform hover:scale-105 flex items-center gap-2 btn-animated">
-                        <i class="fas fa-star"></i>الأحدث
+                    <button onclick="sortStamps('latest')" class="px-6 py-2 bg-algerian-green text-white rounded-full font-medium hover:bg-opacity-90 transition transform hover:scale-105 flex items-center gap-2 btn-animated">
+                        <i class="fas fa-star"></i><span data-translate="latestBtn">الأحدث</span>
                     </button>
-                    <button class="px-6 py-2 bg-gray-200 text-gray-700 rounded-full font-medium hover:bg-gray-300 transition transform hover:scale-105 flex items-center gap-2 btn-animated">
-                        <i class="fas fa-calendar"></i>حسب السنة
+
+                    <!-- فلترة حسب السنة -->
+                    <div class="relative">
+                        <select id="yearFilter" onchange="filterStamps()" class="appearance-none pl-10 pr-6 py-2 bg-gray-200 text-gray-700 rounded-full font-medium hover:bg-gray-300 transition outline-none cursor-pointer">
+                            <option value="">كل السنوات</option>
+                        </select>
+                        <i class="fas fa-calendar absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none"></i>
+                    </div>
+
+                    <button onclick="toggleAdvancedFilter()" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-full font-medium hover:bg-gray-300 transition transform hover:scale-105 flex items-center gap-2 btn-animated">
+                        <i class="fas fa-sliders-h"></i><span data-translate="advancedFilterBtn">تصفية متقدمة</span>
                     </button>
-                    <button class="px-6 py-2 bg-gray-200 text-gray-700 rounded-full font-medium hover:bg-gray-300 transition transform hover:scale-105 flex items-center gap-2 btn-animated">
-                        <i class="fas fa-sliders-h"></i>تصفية متقدمة
+                </div>
+            </div>
+
+            <!-- لوحة التصفية المتقدمة -->
+            <div id="advancedFilterPanel" class="filter-panel bg-gray-50 rounded-xl border border-gray-200 shadow-inner">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2" data-translate="designer">الرسام</label>
+                        <select id="designerFilter" onchange="filterStamps()" class="w-full p-2.5 bg-white border border-gray-300 rounded-lg text-sm outline-none focus:border-algerian-green">
+                            <option value="">الكل</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2" data-translate="printer">طريقة الطباعة (الطابعة)</label>
+                        <select id="printerFilter" onchange="filterStamps()" class="w-full p-2.5 bg-white border border-gray-300 rounded-lg text-sm outline-none focus:border-algerian-green">
+                            <option value="">الكل</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex justify-end mt-4">
+                    <button onclick="resetFilters()" class="text-sm font-medium text-algerian-red hover:underline">
+                        إعادة تعيين التصفية
                     </button>
                 </div>
             </div>
@@ -588,6 +595,20 @@
             <!-- شبكة الطوابع -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="stampGrid">
                 <!-- سيتم ملؤها بواسطة JavaScript -->
+            </div>
+
+            <!-- زر تحميل المزيد -->
+            <div class="flex justify-center mt-12" id="loadMoreContainer">
+                <button id="loadMoreBtn" onclick="loadNextPage()" class="px-8 py-3 bg-algerian-green hover:bg-opacity-90 text-white font-bold rounded-full transition transform hover:scale-105 shadow-md flex items-center gap-2">
+                    <i class="fas fa-sync-alt"></i>
+                    <span data-translate="loadMoreBtn">تحميل المزيد</span>
+                </button>
+            </div>
+
+            <!-- رسالة عند عدم وجود نتائج -->
+            <div id="noResultsMessage" class="hidden text-center py-16 text-gray-500">
+                <i class="fas fa-search text-5xl mb-4 text-gray-300"></i>
+                <p class="text-xl font-medium" data-translate="noResults">لم يتم العثور على نتائج تطابق بحثك.</p>
             </div>
         </div>
     </section>
@@ -601,27 +622,27 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div class="text-center text-white transform hover:scale-110 transition duration-300">
                     <div class="text-5xl font-bold mb-2">
-                        <i class="fas fa-stamp text-heritage-gold mr-3"></i>52+
+                        <i class="fas fa-stamp text-heritage-gold mr-3"></i><span id="statStampsCount">1247</span>
                     </div>
-                    <p class="text-lg text-gray-100">طابع موثق</p>
+                    <p class="text-lg text-gray-100" data-translate="stat1Label">طابع موثق</p>
                 </div>
                 <div class="text-center text-white transform hover:scale-110 transition duration-300">
                     <div class="text-5xl font-bold mb-2">
                         <i class="fas fa-calendar text-heritage-gold mr-3"></i>60+
                     </div>
-                    <p class="text-lg text-gray-100">عاماً من التاريخ</p>
+                    <p class="text-lg text-gray-100" data-translate="stat2Label">عاماً من التاريخ</p>
                 </div>
                 <div class="text-center text-white transform hover:scale-110 transition duration-300">
                     <div class="text-5xl font-bold mb-2">
                         <i class="fas fa-folder text-heritage-gold mr-3"></i>12
                     </div>
-                    <p class="text-lg text-gray-100">مجموعة رئيسية</p>
+                    <p class="text-lg text-gray-100" data-translate="stat3Label">مجموعة رئيسية</p>
                 </div>
                 <div class="text-center text-white transform hover:scale-110 transition duration-300">
                     <div class="text-5xl font-bold mb-2">
                         <i class="fas fa-history text-heritage-gold mr-3"></i>3
                     </div>
-                    <p class="text-lg text-gray-100">حقب زمنية</p>
+                    <p class="text-lg text-gray-100" data-translate="stat4Label">حقب زمنية</p>
                 </div>
             </div>
         </div>
@@ -632,21 +653,21 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <div class="animate-slide-in-left">
-                    <h3 class="text-4xl font-bold text-algerian-green mb-6">عن الأرشيف</h3>
+                    <h3 class="text-4xl font-bold text-algerian-green mb-6" data-translate="aboutTitle">عن الأرشيف</h3>
                     <div class="space-y-4 text-gray-700 leading-relaxed">
-                        <p>
+                        <p data-translate="aboutP1">
                             <span class="font-bold text-algerian-green">ذاكرة الجزائر</span> هو مشروع توثيقي شامل يهدف إلى حفظ 
                             ودراسة الطوابع البريدية الجزائرية منذ استقلال الدولة في عام 1962.
                         </p>
-                        <p>
+                        <p data-translate="aboutP2">
                             يركز الأرشيف على <span class="font-bold">التوثيق العلمي الدقيق</span> لكل طابع، مع توفير 
                             معلومات شاملة عن تاريخ الإصدار، الرسام، طريقة الطباعة، والموضوع الثقافي.
                         </p>
-                        <p>
+                        <p data-translate="aboutP3">
                             يعتبر هذا المرجع <span class="font-bold">منصة موثوقة للباحثين والدارسين</span> في مجالات 
                             التاريخ والفن والثقافة الجزائرية.
                         </p>
-                        <p>
+                        <p data-translate="aboutP4">
                             كل طابع في مجموعتنا يمثل جزءاً من الذاكرة الجماعية الجزائرية، ويحكي قصصاً عن الإنجازات 
                             الحضارية والمحطات التاريخية الكبرى.
                         </p>
@@ -699,39 +720,35 @@
                         <div class="bg-algerian-green p-2 rounded-lg">
                             <i class="fas fa-envelope-open text-white text-lg"></i>
                         </div>
-                        <h3 class="text-lg font-bold">ذاكرة الجزائر</h3>
+                        <h3 class="text-lg font-bold" data-translate="siteTitle">ذاكرة الجزائر</h3>
                     </div>
-                    <p class="text-gray-400 text-sm leading-relaxed">
+                    <p class="text-gray-400 text-sm leading-relaxed" data-translate="footerAboutDesc">
                         منصة تاريخية موثوقة للطوابع البريدية الجزائرية، تحافظ على الذاكرة الجماعية للوطن.
                     </p>
                 </div>
 
                 <!-- روابط سريعة -->
                 <div>
-                    <h4 class="font-bold mb-4 text-heritage-gold">روابط سريعة</h4>
+                    <h4 class="font-bold mb-4 text-heritage-gold" data-translate="quickLinks">روابط سريعة</h4>
                     <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#gallery" class="hover:text-white transition hover:translate-x-1 inline-block">المعرض الرئيسي</a></li>
-                        <li><a href="#collections" class="hover:text-white transition hover:translate-x-1 inline-block">المجموعات</a></li>
-                        <li><a href="#about" class="hover:text-white transition hover:translate-x-1 inline-block">عن الأرشيف</a></li>
-                        <li><a href="#" class="hover:text-white transition hover:translate-x-1 inline-block">اتصل بنا</a></li>
+                        <li><a href="#gallery" class="hover:text-white transition hover:translate-x-1 inline-block" data-translate="mainGallery">المعرض الرئيسي</a></li>
+                        <li><a href="#collections" class="hover:text-white transition hover:translate-x-1 inline-block" data-translate="collections">المجموعات</a></li>
+                        <li><a href="#about" class="hover:text-white transition hover:translate-x-1 inline-block" data-translate="about">عن الأرشيف</a></li>
                     </ul>
                 </div>
 
                 <!-- التواصل الاجتماعي -->
                 <div>
-                    <h4 class="font-bold mb-4 text-heritage-gold">تابعنا</h4>
+                    <h4 class="font-bold mb-4 text-heritage-gold" data-translate="followUs">تابعنا</h4>
                     <div class="flex gap-4">
-                        <a href="#" class="w-12 h-12 bg-algerian-green rounded-full flex items-center justify-center hover:bg-algerian-red transition transform hover:scale-110 duration-300">
+                        <a href="https://Facebook.com/abdelhadilrs" target="_blank" class="w-12 h-12 bg-algerian-green rounded-full flex items-center justify-center hover:bg-algerian-red transition transform hover:scale-110 duration-300">
                             <i class="fab fa-facebook-f text-white"></i>
                         </a>
-                        <a href="#" class="w-12 h-12 bg-algerian-green rounded-full flex items-center justify-center hover:bg-algerian-red transition transform hover:scale-110 duration-300">
+                        <a href="https://Twitter.com/larrasabdelhadi" target="_blank" class="w-12 h-12 bg-algerian-green rounded-full flex items-center justify-center hover:bg-algerian-red transition transform hover:scale-110 duration-300">
                             <i class="fab fa-twitter text-white"></i>
                         </a>
-                        <a href="#" class="w-12 h-12 bg-algerian-green rounded-full flex items-center justify-center hover:bg-algerian-red transition transform hover:scale-110 duration-300">
+                        <a href="https://Instagram.com/abdelhadilrs" target="_blank" class="w-12 h-12 bg-algerian-green rounded-full flex items-center justify-center hover:bg-algerian-red transition transform hover:scale-110 duration-300">
                             <i class="fab fa-instagram text-white"></i>
-                        </a>
-                        <a href="#" class="w-12 h-12 bg-algerian-green rounded-full flex items-center justify-center hover:bg-algerian-red transition transform hover:scale-110 duration-300">
-                            <i class="fab fa-youtube text-white"></i>
                         </a>
                     </div>
                 </div>
@@ -741,7 +758,7 @@
             <div class="border-t border-gray-700 pt-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="text-sm text-gray-400">
-                        <p class="mb-2">
+                        <p class="mb-2" data-translate="disclaimer">
                             <i class="fas fa-info-circle text-heritage-gold ml-2"></i>
                             <span class="font-semibold">تنويه:</span> هذا الموقع غير مخصص للتجارة أو البيع. 
                             جميع الطوابع المعروضة هي لأغراض توثيقية وتاريخية حصرياً.
@@ -749,9 +766,9 @@
                     </div>
                     <div class="text-sm text-gray-400 md:text-left">
                         <p>
-                            <span class="text-heritage-gold font-semibold">©</span> جميع الحقوق محفوظة 
+                            <span class="text-heritage-gold font-semibold">©</span> <span data-translate="rights">جميع الحقوق محفوظة</span>
                             <span class="text-heritage-gold">|</span>
-                            <a href="#" class="text-algerian-green hover:text-heritage-gold transition">تطوير وتصميم Jubapp</a>
+                            <a href="#" class="text-algerian-green hover:text-heritage-gold transition" data-translate="developedBy">تطوير وتصميم Abdelhadi</a>
                             <span class="text-heritage-gold">|</span> 2026
                         </p>
                     </div>
@@ -760,698 +777,533 @@
         </div>
     </footer>
 
-    <!-- ===== النافذة المنبثقة (Modal) ===== -->
-    <div id="stampModal" class="modal">
-        <div class="modal-content">
-            <!-- رأس النافذة -->
-            <div class="sticky top-0 bg-algerian-green text-white p-6 flex items-center justify-between rounded-t-2xl">
-                <h2 id="modalTitle" class="text-2xl font-bold">تفاصيل الطابع</h2>
-                <button class="text-2xl hover:text-gray-200 transition transform hover:scale-125" onclick="closeStampModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-
-            <!-- محتوى النافذة -->
-            <div class="p-8">
-                <!-- صورة الطابع المكبرة -->
-                <div class="mb-8 flex justify-center">
-                    <div class="stamp-frame p-4">
-                        <img id="modalImage" src="" alt="صورة الطابع" class="w-64 h-auto rounded-lg shadow-lg">
-                    </div>
-                </div>
-
-                <!-- تفاصيل الطابع -->
-                <div class="space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- الرقم التسلسلي -->
-                        <div class="bg-gradient-to-br from-algerian-green to-green-700 p-4 rounded-lg text-white">
-                            <p class="text-sm text-green-100 mb-1">الرقم التسلسلي</p>
-                            <p id="modalCode" class="text-xl font-bold">DZ-001</p>
-                        </div>
-
-                        <!-- تاريخ الإصدار -->
-                        <div class="bg-gradient-to-br from-algerian-green to-green-700 p-4 rounded-lg text-white">
-                            <p class="text-sm text-green-100 mb-1">تاريخ الإصدار</p>
-                            <p id="modalDate" class="text-xl font-bold">01 نوفمبر 1964</p>
-                        </div>
-
-                        <!-- القيمة الاسمية -->
-                        <div class="bg-gradient-to-br from-heritage-gold to-yellow-600 p-4 rounded-lg text-white">
-                            <p class="text-sm text-yellow-100 mb-1">القيمة الاسمية</p>
-                            <p id="modalValue" class="text-xl font-bold">1 دينار جزائري</p>
-                        </div>
-
-                        <!-- الرسام -->
-                        <div class="bg-gradient-to-br from-heritage-gold to-yellow-600 p-4 rounded-lg text-white">
-                            <p class="text-sm text-yellow-100 mb-1">الرسام</p>
-                            <p id="modalArtist" class="text-xl font-bold">محمد إسياخم</p>
-                        </div>
-                    </div>
-
-                    <!-- طريقة الطباعة -->
-                    <div class="bg-algerian-red bg-opacity-10 border-r-4 border-algerian-red p-4 rounded-lg">
-                        <p class="text-sm text-gray-600 mb-2">طريقة الطباعة (الطابعة)</p>
-                        <p id="modalPrinting" class="text-lg font-semibold text-algerian-red flex items-center gap-2">
-                            <i class="fas fa-print"></i>طباعة غائرة
-                        </p>
-                    </div>
-                </div>
-
-                <!-- أزرار التحميل والمشاركة -->
-                <div class="flex gap-4 mt-8 flex-wrap">
-                    <button onclick="downloadStamp()" class="flex-1 bg-algerian-green hover:bg-opacity-90 text-white font-bold py-3 px-6 rounded-lg transition flex items-center justify-center gap-2 transform hover:scale-105 btn-animated shadow-md">
-                        <i class="fas fa-download"></i>
-                        تحميل الصورة
-                    </button>
-                    <button onclick="shareStamp()" class="flex-1 bg-heritage-gold hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg transition flex items-center justify-center gap-2 transform hover:scale-105 btn-animated shadow-md">
-                        <i class="fas fa-share-alt"></i>
-                        مشاركة
-                    </button>
-                    <button onclick="closeStampModal()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-6 rounded-lg transition flex items-center justify-center gap-2 transform hover:scale-105 btn-animated shadow-md">
-                        <i class="fas fa-times"></i>
-                        إغلاق
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- JavaScript -->
     <script>
-        // بيانات الطوابع المستخرجة من قاعدة البيانات
-        const stamps = [
-            {
-                title: "wheat sheaves",
-                code: "DZ-P7-1",
-                image: "/extracted_stamps/page_7_stamp_1.png",
-                date: "05/07/1962",
-                value: "0.10",
-                artist: "Cortot -Gandon",
-                printing: "Paris printing office"
+        // لغات الواجهة الثابتة
+        const uiTranslations = {
+            ar: {
+                siteTitle: "ذاكرة الجزائر",
+                siteSubtitle: "أرشيف الطوابع الرقمي",
+                mainGallery: "المعرض الرئيسي",
+                eras: "الحقب الزمنية",
+                collections: "المجموعات",
+                about: "عن الأرشيف",
+                searchPlaceholder: "ابحث عن طابع...",
+                heroTitle: "طوابع تروي <span class=\"text-gradient-gold block\">قصة وطن</span>",
+                heroSubtitle: "اكتشف مجموعة فريدة من الطوابع البريدية الجزائرية التي توثق تاريخ الوطن منذ الاستقلال، كل طابع يحكي قصة من قصص النضال والحضارة والفخر الوطني.",
+                browseBtn: "تصفح الأرشيف",
+                eraTitle: "الحقب الزمنية",
+                eraSubtitle: "تطور الطوابع البريدية عبر مراحل التاريخ الجزائري",
+                era1Title: "فترة ما قبل الاستقلال",
+                era1Desc: "الطوابع البريدية الفرنسية المستخدمة في الجزائر قبل استقلالها.",
+                era2Title: "فجر الاستقلال",
+                era2Desc: "أول الطوابع الجزائرية الوطنية بعد الاستقلال مباشرة.",
+                era3Title: "الجمهورية الحديثة",
+                era3Desc: "تطور الهوية البصرية والموضوعات الوطنية للطوابع.",
+                collectionTitle: "المجموعات الموضوعية",
+                collectionSubtitle: "استكشف الطوابع حسب الموضوعات الرئيسية",
+                coll1Title: "الثورة التحريرية",
+                coll1Desc: "طوابع توثق المراحل الكبرى للثورة التحريرية.",
+                coll2Title: "الصناعات التقليدية",
+                coll2Desc: "فن وحرف جزائرية تراثية عبر الطوابع.",
+                coll3Title: "الطبيعة والبيئة",
+                coll3Desc: "الثروة الطبيعية والتنوع البيولوجي الجزائري.",
+                coll4Title: "شخصيات تاريخية",
+                coll4Desc: "أعظم قادة وشخصيات جزائرية عبر التاريخ.",
+                galleryTitle: "المعرض الرئيسي",
+                gallerySubtitle: "تصفح مجموعتنا الكاملة من الطوابع",
+                latestBtn: "الأحدث",
+                yearBtn: "حسب السنة",
+                advancedFilterBtn: "تصفية متقدمة",
+                stat1Label: "طابع موثق",
+                stat2Label: "عاماً من التاريخ",
+                stat3Label: "مجموعة رئيسية",
+                stat4Label: "حقب زمنية",
+                aboutTitle: "عن الأرشيف",
+                aboutP1: "<strong>ذاكرة الجزائر</strong> هو مشروع توثيقي شامل يهدف إلى حفظ ودراسة الطوابع البريدية الجزائرية منذ استقلال الدولة في عام 1962.",
+                aboutP2: "يركز الأرشيف على <strong>التوثيق العلمي الدقيق</strong> لكل طابع، مع توفير معلومات شاملة عن تاريخ الإصدار، الرسام، طريقة الطباعة، والموضوع الثقافي.",
+                aboutP3: "يعتبر هذا المرجع <strong>منصة موثوقة للباحثين والدارسين</strong> في مجالات التاريخ والفن والثقافة الجزائرية.",
+                aboutP4: "كل طابع في مجموعتنا يمثل جزءاً من الذاكرة الجماعية الجزائرية، ويحكي قصصاً عن الإنجازات الحضارية والمحطات التاريخية الكبرى.",
+                footerAboutTitle: "عن الموقع",
+                footerAboutDesc: "منصة تاريخية موثوقة للطوابع البريدية الجزائرية، تحافظ على الذاكرة الجماعية للوطن.",
+                quickLinks: "روابط سريعة",
+                followUs: "تابعنا",
+                disclaimer: "<strong>تنويه:</strong> هذا الموقع غير مخصص للتجارة أو البيع. جميع الطوابع المعروضة هي لأغراض توثيقية وتاريخية حصرياً.",
+                rights: "جميع الحقوق محفوظة",
+                developedBy: "تطوير وتصميم Abdelhadi",
+                detailsTitle: "تفاصيل الطابع",
+                serialNumber: "الرقم التسلسلي",
+                issueDate: "تاريخ الإصدار",
+                faceValue: "القيمة الاسمية",
+                designer: "الرسام",
+                printer: "طريقة الطباعة (الطابعة)",
+                perforation: "التخريد / التسنن",
+                dimensions: "الأبعاد",
+                withdrawalDate: "تاريخ السحب",
+                downloadBtn: "تحميل الصورة",
+                shareBtn: "مشاركة",
+                closeBtn: "إغلاق",
+                backBtn: "الرجوع للأرشيف",
+                loadMoreBtn: "تحميل المزيد",
+                noResults: "لم يتم العثور على نتائج تطابق بحثك.",
+                filterAll: "الكل",
+                searchLabel: "البحث عن الطوابع"
             },
-            {
-                title: "wheat sheaves",
-                code: "DZ-P7-2",
-                image: "/extracted_stamps/page_7_stamp_2.png",
-                date: "05/07/1962",
-                value: "0.05",
-                artist: "Cortot -Gandon",
-                printing: "Paris printing office"
-            },
-            {
-                title: "wheat sheaves",
-                code: "DZ-P7-3",
-                image: "/extracted_stamps/page_7_stamp_3.png",
-                date: "05/07/1962",
-                value: "0.50",
-                artist: "Cortot -Gandon",
-                printing: "Paris printing office"
-            },
-            {
-                title: "wheat sheaves",
-                code: "DZ-P7-4",
-                image: "/extracted_stamps/page_7_stamp_4.png",
-                date: "05/07/1962",
-                value: "0.20",
-                artist: "Cortot -Gandon",
-                printing: "Paris printing office"
-            },
-            {
-                title: "The Harvester",
-                code: "DZ-P7-5",
-                image: "/extracted_stamps/page_7_stamp_5.png",
-                date: "05/07/1962",
-                value: "0.10",
-                artist: "Piel –Muller",
-                printing: "Paris printing office"
-            },
-            {
-                title: "wheat sheaves",
-                code: "DZ-P7-6",
-                image: "/extracted_stamps/page_7_stamp_6.png",
-                date: "05/07/1962",
-                value: "1.00",
-                artist: "Cortot -Gandon",
-                printing: "Paris printing office"
-            },
-            {
-                title: "Kherata Straits",
-                code: "DZ-P7-7",
-                image: "/extracted_stamps/page_7_stamp_7.png",
-                date: "05/07/1962",
-                value: "0.45",
-                artist: "Spitz -Cami",
-                printing: "Paris printing office"
-            },
-            {
-                title: "Marianne",
-                code: "DZ-P7-8",
-                image: "/extracted_stamps/page_7_stamp_8.png",
-                date: "05/07/1962",
-                value: "0.25",
-                artist: "Albert Decaris",
-                printing: "Paris printing office"
-            },
-            {
-                title: "Médéa -Ancient Gates",
-                code: "DZ-P8-1",
-                image: "/extracted_stamps/page_8_stamp_1.png",
-                date: "05/07/1962",
-                value: "1.00",
-                artist: "Jacques Combet",
-                printing: "Paris printing office"
-            },
-            {
-                title: "The Great Mosque –Tlemcen",
-                code: "DZ-P8-2",
-                image: "/extracted_stamps/page_8_stamp_2.png",
-                date: "05/07/1962",
-                value: "0.50",
-                artist: "Jean Pheulpin",
-                printing: "Paris printing office"
-            },
-            {
-                title: "Marianne",
-                code: "DZ-P8-3",
-                image: "/extracted_stamps/page_8_stamp_3.png",
-                date: "06/08/1962",
-                value: "0.25",
-                artist: "Albert Decaris",
-                printing: "Paris printing office"
-            },
-            {
-                title: "The Harvester",
-                code: "DZ-P8-4",
-                image: "/extracted_stamps/page_8_stamp_4.png",
-                date: "06/08/1962",
-                value: "0.10",
-                artist: "Piel –Muller",
-                printing: "Paris printing office"
-            },
-            {
-                title: "The Great Mosque –Tlemcen",
-                code: "DZ-P8-5",
-                image: "/extracted_stamps/page_8_stamp_5.png",
-                date: "06/08/1962",
-                value: "0.50",
-                artist: "Jean Pheulpin",
-                printing: "Paris printing office"
-            },
-            {
-                title: "Kherata Straits",
-                code: "DZ-P8-6",
-                image: "/extracted_stamps/page_8_stamp_6.png",
-                date: "06/08/1962",
-                value: "0.45",
-                artist: "Spitz -Cami",
-                printing: "Paris printing office"
-            },
-            {
-                title: "Médéa -Ancient Gates",
-                code: "DZ-P8-7",
-                image: "/extracted_stamps/page_8_stamp_7.png",
-                date: "06/08/1962",
-                value: "1.00",
-                artist: "Jacques Combet",
-                printing: "Paris printing office"
-            },
-            {
-                title: "-Kherata Straits",
-                code: "DZ-P9-1",
-                image: "/extracted_stamps/page_9_stamp_1.png",
-                date: "01/11/1962",
-                value: "0.05",
-                artist: "Spitz -Cami",
-                printing: "Paris Post Printing"
-            },
-            {
-                title: "The National Flag",
-                code: "DZ-P9-2",
-                image: "/extracted_stamps/page_9_stamp_2.png",
-                date: "01/11/1962",
-                value: "1.00+9.00",
-                artist: "Gilbert A. Vallée",
-                printing: "Algerian Printing House"
-            },
-            {
-                title: "The Great Mosque –Tlemcen",
-                code: "DZ-P9-3",
-                image: "/extracted_stamps/page_9_stamp_3.png",
-                date: "01/11/1962",
-                value: "0.25",
-                artist: "Jean Pheulpin",
-                printing: "Paris Post Printing"
-            },
-            {
-                title: "Foum El-Gherza Dam",
-                code: "DZ-P9-4",
-                image: "/extracted_stamps/page_9_stamp_4.png",
-                date: "01/11/1962",
-                value: "0.10",
-                artist: "Combet -  Munier",
-                printing: "Paris Post Printing"
-            },
-            {
-                title: "Médéa -Ancient Gates",
-                code: "DZ-P9-5",
-                image: "/extracted_stamps/page_9_stamp_5.png",
-                date: "01/11/1962",
-                value: "1.00",
-                artist: "Jacques Combet",
-                printing: "Paris Post Printing"
-            },
-            {
-                title: "Hassi Messaoud",
-                code: "DZ-P9-6",
-                image: "/extracted_stamps/page_9_stamp_6.png",
-                date: "01/11/1962",
-                value: "0.95",
-                artist: "Jacques Combet",
-                printing: "Paris Post Printing"
-            },
-            {
-                title: "The Flag and the Olive Branch",
-                code: "DZ-P13-1",
-                image: "/extracted_stamps/page_13_stamp_1.png",
-                date: "07/01/1963",
-                value: "0.10",
-                artist: "Perforation: 12 1/2",
-                printing: "National Printing House of Belgrade"
-            },
-            {
-                title: "The Flag and the Olive Branch",
-                code: "DZ-P13-2",
-                image: "/extracted_stamps/page_13_stamp_2.png",
-                date: "07/01/1963",
-                value: "0.05",
-                artist: "Perforation : 12 1/2",
-                printing: "National Printing House of Belgrade"
-            },
-            {
-                title: "The Flag and the Olive Branch",
-                code: "DZ-P13-3",
-                image: "/extracted_stamps/page_13_stamp_3.png",
-                date: "07/01/1963",
-                value: "0.95",
-                artist: "Perforation: 12 1/2",
-                printing: "National Printing House of Belgrade"
-            },
-            {
-                title: "The Flag and the Olive Branch",
-                code: "DZ-P13-4",
-                image: "/extracted_stamps/page_13_stamp_4.png",
-                date: "07/01/1963",
-                value: "0.25",
-                artist: "Perforation: 12 1/2",
-                printing: "National Printing House of Belgrade"
-            },
-            {
-                title: "The Flag and the Dove",
-                code: "DZ-P13-5",
-                image: "/extracted_stamps/page_13_stamp_5.png",
-                date: "07/01/1963",
-                value: "2.00",
-                artist: "Perforation: 12 1/2",
-                printing: "National Printing House of Belgrade"
-            },
-            {
-                title: "The Flag and the Dove",
-                code: "DZ-P13-6",
-                image: "/extracted_stamps/page_13_stamp_6.png",
-                date: "07/01/1963",
-                value: "1.00",
-                artist: "Perforation: 12 1/2",
-                printing: "National Printing House of Belgrade"
-            },
-            {
-                title: "The Flag and the Dove",
-                code: "DZ-P13-7",
-                image: "/extracted_stamps/page_13_stamp_7.png",
-                date: "07/01/1963",
-                value: "10.00",
-                artist: "Perforation: 12 1/2",
-                printing: "National Printing House of Belgrade"
-            },
-            {
-                title: "The Flag and the Dove",
-                code: "DZ-P13-8",
-                image: "/extracted_stamps/page_13_stamp_8.png",
-                date: "07/01/1963",
-                value: "5.00",
-                artist: "Perforation: 12 1/2",
-                printing: "National Printing House of"
-            },
-            {
-                title: "National Solidarity Fund",
-                code: "DZ-P14-1",
-                image: "/extracted_stamps/page_14_stamp_1.png",
-                date: "26/05/1963",
-                value: "0.50+0.20",
-                artist: "Bouzid et Ferrer",
-                printing: "Paris printing office"
-            },
-            {
-                title: "World Freedom from Hunger",
-                code: "DZ-P14-2",
-                image: "/extracted_stamps/page_14_stamp_2.png",
-                date: "21/03/1963",
-                value: "0.25",
-                artist: "Ferrer",
-                printing: "غير محدد"
-            },
-            {
-                title: "balance",
-                code: "DZ-P14-3",
-                image: "/extracted_stamps/page_14_stamp_3.png",
-                date: "June 1963",
-                value: "0.10",
-                artist: "Perforation: 13 1/2",
-                printing: "Paris printing office"
-            },
-            {
-                title: "balance",
-                code: "DZ-P14-4",
-                image: "/extracted_stamps/page_14_stamp_4.png",
-                date: "June 1963",
-                value: "0.05",
-                artist: "Perforation: 13 1/2",
-                printing: "Paris printing office"
-            },
-            {
-                title: "balance",
-                code: "DZ-P14-5",
-                image: "/extracted_stamps/page_14_stamp_5.png",
-                date: "June 1963",
-                value: "0.50",
-                artist: "Perforation: 13 1/2",
-                printing: "Paris printing office"
-            },
-            {
-                title: "balance",
-                code: "DZ-P14-6",
-                image: "/extracted_stamps/page_14_stamp_6.png",
-                date: "June 1963",
-                value: "0.20",
-                artist: "Perforation: 13 1/2",
-                printing: "Paris printing office"
-            },
-            {
-                title: "1st Anniversary of the independence",
-                code: "DZ-P14-7",
-                image: "/extracted_stamps/page_14_stamp_7.png",
-                date: "05/07/1963",
-                value: "0.25",
-                artist: "A.Ali Khodja",
-                printing: "Paris printing office"
-            },
-            {
-                title: "balance",
-                code: "DZ-P14-8",
-                image: "/extracted_stamps/page_14_stamp_8.png",
-                date: "June 1963",
-                value: "1.00",
-                artist: "Perforation: 13 1/2",
-                printing: "Paris printing office"
-            },
-            {
-                title: "Orange",
-                code: "DZ-P15-1",
-                image: "/extracted_stamps/page_15_stamp_1.png",
-                date: "July 1963",
-                value: "0.08",
-                artist: "Perforation: 14x13",
-                printing: "Paris printing office"
-            },
-            {
-                title: "2nd Arab Physicians Union Congress",
-                code: "DZ-P15-2",
-                image: "/extracted_stamps/page_15_stamp_2.png",
-                date: "29/07/1963",
-                value: "0.25",
-                artist: "Ali Khodja",
-                printing: "Paris printing office"
-            },
-            {
-                title: "Orange",
-                code: "DZ-P15-3",
-                image: "/extracted_stamps/page_15_stamp_3.png",
-                date: "July 1963",
-                value: "0.40",
-                artist: "Perforation: 14x13",
-                printing: "Paris printing office"
-            },
-            {
-                title: "0.12 stamp N°45 Overcharged",
-                code: "DZ-P15-4",
-                image: "/extracted_stamps/page_15_stamp_4.png",
-                date: "07/1963",
-                value: "0.20",
-                artist: "Perforation: 13 x 14",
-                printing: "Paris printing office overcharged by Bank"
-            },
-            {
-                title: "The Constitution OF Algeria",
-                code: "DZ-P15-5",
-                image: "/extracted_stamps/page_15_stamp_5.png",
-                date: "13/10/1963",
-                value: "0.25",
-                artist: "A.Ali Khodja",
-                printing: "Paris printing office"
-            },
-            {
-                title: "Orange",
-                code: "DZ-P15-6",
-                image: "/extracted_stamps/page_15_stamp_6.png",
-                date: "July 1963",
-                value: "0.55",
-                artist: "Perforation: 14x13",
-                printing: "Paris printing office"
-            },
-            {
-                title: "Centenary of the International Red",
-                code: "DZ-P15-7",
-                image: "/extracted_stamps/page_15_stamp_7.png",
-                date: "08/11/1963",
-                value: "0.25",
-                artist: "A.Ali Khodja",
-                printing: "Courvoisier"
-            },
-            {
-                title: "9th Anniversary of the Algerian",
-                code: "DZ-P15-8",
-                image: "/extracted_stamps/page_15_stamp_8.png",
-                date: "01/11/1963",
-                value: "0.25",
-                artist: "A.Ali Khodja",
-                printing: "Paris printing office"
-            },
-            {
-                title: "Universal Declaration of Human Rights",
-                code: "DZ-P16-1",
-                image: "/extracted_stamps/page_16_stamp_1.png",
-                date: "10/12/1963",
-                value: "0.25",
-                artist: "Courvoisier",
-                printing: "Courvoisier"
-            },
-            {
-                title: "Africa Day",
-                code: "DZ-P20-1",
-                image: "/extracted_stamps/page_20_stamp_1.png",
-                date: "25/05/1964",
-                value: "0.45",
-                artist: "M. Chokri Mesli",
-                printing: "Paris printing office"
-            },
-            {
-                title: "Labour Day",
-                code: "DZ-P20-2",
-                image: "/extracted_stamps/page_20_stamp_2.png",
-                date: "01/05/1964",
-                value: "0.50",
-                artist: "A.Ali Khodja",
-                printing: "Paris printing office"
-            },
-            {
-                title: "Safeguard Monuments of Nubie",
-                code: "DZ-P20-3",
-                image: "/extracted_stamps/page_20_stamp_3.png",
-                date: "28/06/1964",
-                value: "0.20",
-                artist: "Gandon",
-                printing: "Paris printing office"
-            },
-            {
-                title: "Agriculture",
-                code: "DZ-P20-4",
-                image: "/extracted_stamps/page_20_stamp_4.png",
-                date: "01/06/1964",
-                value: "0.25",
-                artist: "Perforation: 13 1/2",
-                printing: "Paris printing office"
-            },
-            {
-                title: "Algiers-Annaba radio-relay system",
-                code: "DZ-P20-5",
-                image: "/extracted_stamps/page_20_stamp_5.png",
-                date: "30/08/1964",
-                value: "0.85",
-                artist: "A.Ali Khodja",
-                printing: "Paris printing office"
-            },
-            {
-                title: "Safeguard Monuments of Nubie",
-                code: "DZ-P20-6",
-                image: "/extracted_stamps/page_20_stamp_6.png",
-                date: "28/06/1964",
-                value: "0.30",
-                artist: "Cottet",
-                printing: "Paris printing office"
+            en: {
+                siteTitle: "Algeria Memory",
+                siteSubtitle: "Digital Stamps Archive",
+                mainGallery: "Main Gallery",
+                eras: "Eras",
+                collections: "Collections",
+                about: "About Archive",
+                searchPlaceholder: "Search for a stamp...",
+                heroTitle: "Stamps Telling <span class=\"text-gradient-gold block\">the Story of a Nation</span>",
+                heroSubtitle: "Discover a unique collection of Algerian postage stamps documenting the nation's history since independence. Each stamp tells a story of struggle, civilization, and national pride.",
+                browseBtn: "Browse Archive",
+                eraTitle: "Historical Eras",
+                eraSubtitle: "The evolution of postage stamps through the stages of Algerian history",
+                era1Title: "Pre-Independence Era",
+                era1Desc: "French postage stamps used in Algeria before its independence.",
+                era2Title: "Dawn of Independence",
+                era2Desc: "The first national Algerian stamps immediately after independence.",
+                era3Title: "Modern Republic",
+                era3Desc: "The evolution of visual identity and national themes of stamps.",
+                collectionTitle: "Thematic Collections",
+                collectionSubtitle: "Explore stamps by main themes",
+                coll1Title: "Liberation Revolution",
+                coll1Desc: "Stamps documenting the major stages of the liberation revolution.",
+                coll2Title: "Traditional Crafts",
+                coll2Desc: "Algerian traditional arts and crafts through stamps.",
+                coll3Title: "Nature & Environment",
+                coll3Desc: "Natural wealth and Algerian biodiversity.",
+                coll4Title: "Historical Figures",
+                coll4Desc: "The greatest Algerian leaders and personalities throughout history.",
+                galleryTitle: "Main Gallery",
+                gallerySubtitle: "Browse our full collection of stamps",
+                latestBtn: "Latest",
+                yearBtn: "By Year",
+                advancedFilterBtn: "Advanced Filter",
+                stat1Label: "Documented Stamps",
+                stat2Label: "Years of History",
+                stat3Label: "Main Collections",
+                stat4Label: "Eras",
+                aboutTitle: "About the Archive",
+                aboutP1: "<strong>Algeria Memory</strong> is a comprehensive documentary project aiming to preserve and study Algerian postage stamps since the state's independence in 1962.",
+                aboutP2: "The archive focuses on <strong>precise scientific documentation</strong> of each stamp, providing comprehensive info about the issue date, designer, printer, and cultural theme.",
+                aboutP3: "This reference is considered a <strong>trusted platform for researchers and students</strong> in the fields of Algerian history, art, and culture.",
+                aboutP4: "Every stamp in our collection represents a part of the Algerian collective memory, telling stories of civilizational achievements and major historical milestones.",
+                footerAboutTitle: "About Website",
+                footerAboutDesc: "A trusted historical platform for Algerian postage stamps, preserving the nation's collective memory.",
+                quickLinks: "Quick Links",
+                followUs: "Follow Us",
+                disclaimer: "<strong>Disclaimer:</strong> This site is not for commerce or sale. All stamps displayed are exclusively for documentary and historical purposes.",
+                rights: "All rights reserved",
+                developedBy: "Developed & Designed by Abdelhadi",
+                detailsTitle: "Stamp Details",
+                serialNumber: "Serial Number",
+                issueDate: "Issue Date",
+                faceValue: "Face Value",
+                designer: "Designer / Artist",
+                printer: "Printing Method / Printer",
+                perforation: "Perforation",
+                dimensions: "Dimensions",
+                withdrawalDate: "Withdrawal Date",
+                downloadBtn: "Download Image",
+                shareBtn: "Share",
+                closeBtn: "Close",
+                backBtn: "Back to Archive",
+                loadMoreBtn: "Load More",
+                noResults: "No results found matching your search.",
+                filterAll: "All",
+                searchLabel: "Search Stamps"
             }
-        ];
+        };
 
-        let currentStamp = {};
+        let currentLang = localStorage.getItem('lang') || 'ar';
+        let fullStampsData = [];
+        let filteredStampsData = [];
+        let pagedStampsData = [];
 
-        // تحميل الطوابع
-        function loadStamps(filter = '') {
+        const stampsPerPage = 24;
+        let currentPage = 1;
+
+        // تبديل اللغة وتطبيق الاتجاه
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('lang', currentLang);
+            applyLanguage();
+            loadFullData();
+        }
+
+        function applyLanguage() {
+            const translations = uiTranslations[currentLang];
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+
+            // ترجمة العناصر التي تحمل data-translate
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.getAttribute('data-translate');
+                if (translations[key]) {
+                    el.innerHTML = translations[key];
+                }
+            });
+
+            // ترجمة placeholders
+            document.querySelectorAll('[data-translate-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-translate-placeholder');
+                if (translations[key]) {
+                    el.placeholder = translations[key];
+                }
+            });
+
+            // تحديث أزرار اللغة
+            const toggleBtn = document.getElementById('langToggle');
+            const toggleMobileBtn = document.getElementById('langToggleMobile');
+            if (currentLang === 'ar') {
+                toggleBtn.textContent = 'English';
+                toggleMobileBtn.textContent = 'English';
+                document.body.classList.remove('ltr');
+                document.body.classList.add('rtl');
+            } else {
+                toggleBtn.textContent = 'العربية';
+                toggleMobileBtn.textContent = 'العربية';
+                document.body.classList.remove('rtl');
+                document.body.classList.add('ltr');
+            }
+        }
+
+        // تحميل البيانات من ملف الـ JSON الكامل حسب اللغة المحددة
+        function loadFullData() {
+            const dataUrl = currentLang === 'ar' ? './stamps_data.json' : './stamps_data_en.json';
+
+            // إظهار Shimmer أو Loader بسيط في شبكة الطوابع
             const stampGrid = document.getElementById('stampGrid');
-            stampGrid.innerHTML = '';
+            stampGrid.innerHTML = `
+                <div class="col-span-full text-center py-20">
+                    <i class="fas fa-spinner fa-spin text-4xl text-algerian-green mb-4"></i>
+                    <p class="text-gray-500">جاري تحميل البيانات الأرشيفية...</p>
+                </div>
+            `;
 
-            const filteredStamps = filter
-                ? stamps.filter(stamp => 
-                    stamp.title.toLowerCase().includes(filter.toLowerCase()) || 
-                    stamp.code.toLowerCase().includes(filter.toLowerCase()) ||
-                    stamp.artist.toLowerCase().includes(filter.toLowerCase())
-                )
-                : stamps;
+            fetch(dataUrl)
+                .then(response => response.json())
+                .then(data => {
+                    fullStampsData = data;
 
-            filteredStamps.forEach((stamp) => {
+                    // تحديث إحصائيات عدد الطوابع الفعلي
+                    const statCount = document.getElementById('statStampsCount');
+                    if (statCount) {
+                        statCount.textContent = fullStampsData.length;
+                    }
+
+                    // تهيئة خيارات الفلترة المتقدمة
+                    populateFilterOptions();
+
+                    // تصفية وعرض الصفحة الأولى
+                    filterStamps();
+                })
+                .catch(err => {
+                    console.error('Error loading stamps data:', err);
+                    stampGrid.innerHTML = `
+                        <div class="col-span-full text-center py-20 text-red-500">
+                            <i class="fas fa-exclamation-triangle text-4xl mb-4"></i>
+                            <p>حدث خطأ أثناء تحميل بيانات الأرشيف. يرجى إعادة المحاولة لاحقاً.</p>
+                        </div>
+                    `;
+                });
+        }
+
+        // تهيئة خيارات الفلاتر ديناميكياً بناءً على محتوى الـ JSON
+        function populateFilterOptions() {
+            const years = new Set();
+            const designers = new Set();
+            const printers = new Set();
+
+            fullStampsData.forEach(stamp => {
+                // استخراج السنة
+                let dateStr = '';
+                if (currentLang === 'ar') {
+                    dateStr = stamp.details ? stamp.details.issue_date : '';
+                } else {
+                    dateStr = stamp.issue_date || '';
+                }
+
+                if (dateStr) {
+                    const match = dateStr.match(/\d{4}/);
+                    if (match) {
+                        years.add(match[0]);
+                    }
+                }
+
+                // استخراج الرسام
+                let designerStr = '';
+                if (currentLang === 'ar') {
+                    designerStr = stamp.details ? stamp.details.designer : '';
+                } else {
+                    designerStr = stamp.designer || '';
+                }
+                if (designerStr && designerStr.trim() !== '' && designerStr.toLowerCase() !== 'غير محدد') {
+                    designers.add(designerStr.trim());
+                }
+
+                // استخراج المطبعة
+                let printerStr = '';
+                if (currentLang === 'ar') {
+                    printerStr = stamp.details ? stamp.details.printer : '';
+                } else {
+                    printerStr = stamp.printer || '';
+                }
+                if (printerStr && printerStr.trim() !== '' && printerStr.toLowerCase() !== 'غير محدد') {
+                    printers.add(printerStr.trim());
+                }
+            });
+
+            // تعبئة فلتر السنوات
+            const yearFilter = document.getElementById('yearFilter');
+            const currentYearVal = yearFilter.value;
+            yearFilter.innerHTML = `<option value="">${currentLang === 'ar' ? 'كل السنوات' : 'All Years'}</option>`;
+            Array.from(years).sort().reverse().forEach(y => {
+                const opt = document.createElement('option');
+                opt.value = y;
+                opt.textContent = y;
+                yearFilter.appendChild(opt);
+            });
+            yearFilter.value = currentYearVal;
+
+            // تعبئة فلتر المصممين
+            const designerFilter = document.getElementById('designerFilter');
+            const currentDesignerVal = designerFilter.value;
+            designerFilter.innerHTML = `<option value="">${currentLang === 'ar' ? 'الكل' : 'All'}</option>`;
+            Array.from(designers).sort().forEach(d => {
+                const opt = document.createElement('option');
+                opt.value = d;
+                opt.textContent = d;
+                designerFilter.appendChild(opt);
+            });
+            designerFilter.value = currentDesignerVal;
+
+            // تعبئة فلتر المطابع
+            const printerFilter = document.getElementById('printerFilter');
+            const currentPrinterVal = printerFilter.value;
+            printerFilter.innerHTML = `<option value="">${currentLang === 'ar' ? 'الكل' : 'All'}</option>`;
+            Array.from(printers).sort().forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p;
+                opt.textContent = p;
+                printerFilter.appendChild(opt);
+            });
+            printerFilter.value = currentPrinterVal;
+        }
+
+        // التصفية والبحث المتقدم
+        function filterStamps() {
+            const query = (document.getElementById('searchInput').value || document.getElementById('searchInputMobile').value || '').toLowerCase().trim();
+            const selectedYear = document.getElementById('yearFilter').value;
+            const selectedDesigner = document.getElementById('designerFilter').value;
+            const selectedPrinter = document.getElementById('printerFilter').value;
+
+            filteredStampsData = fullStampsData.filter(stamp => {
+                // البحث العام
+                let matchesQuery = true;
+                if (query) {
+                    let textToSearch = '';
+                    if (currentLang === 'ar') {
+                        textToSearch = `${stamp.title_ar} ${stamp.id} ${stamp.description_ar} ${stamp.details ? stamp.details.designer : ''} ${stamp.details ? stamp.details.printer : ''}`.toLowerCase();
+                    } else {
+                        textToSearch = `${stamp.theme_en} ${stamp.id} ${stamp.raw_text} ${stamp.designer} ${stamp.printer}`.toLowerCase();
+                    }
+                    matchesQuery = textToSearch.includes(query);
+                }
+
+                // فلترة السنة
+                let matchesYear = true;
+                if (selectedYear) {
+                    let dateStr = currentLang === 'ar' ? (stamp.details ? stamp.details.issue_date : '') : (stamp.issue_date || '');
+                    matchesYear = dateStr && dateStr.includes(selectedYear);
+                }
+
+                // فلترة المصمم
+                let matchesDesigner = true;
+                if (selectedDesigner) {
+                    let designerStr = currentLang === 'ar' ? (stamp.details ? stamp.details.designer : '') : (stamp.designer || '');
+                    matchesDesigner = designerStr && designerStr.trim() === selectedDesigner;
+                }
+
+                // فلترة المطبعة
+                let matchesPrinter = true;
+                if (selectedPrinter) {
+                    let printerStr = currentLang === 'ar' ? (stamp.details ? stamp.details.printer : '') : (stamp.printer || '');
+                    matchesPrinter = printerStr && printerStr.trim() === selectedPrinter;
+                }
+
+                return matchesQuery && matchesYear && matchesDesigner && matchesPrinter;
+            });
+
+            // إعادة تعيين الصفحة الحالية
+            currentPage = 1;
+            renderStamps();
+        }
+
+        // عرض الطوابع بطريقة مجزأة (Pagination)
+        function renderStamps() {
+            const stampGrid = document.getElementById('stampGrid');
+            const noResults = document.getElementById('noResultsMessage');
+            const loadMoreContainer = document.getElementById('loadMoreContainer');
+
+            if (currentPage === 1) {
+                stampGrid.innerHTML = '';
+            }
+
+            const startIndex = (currentPage - 1) * stampsPerPage;
+            const endIndex = startIndex + stampsPerPage;
+            const pageData = filteredStampsData.slice(startIndex, endIndex);
+
+            if (filteredStampsData.length === 0) {
+                noResults.classList.remove('hidden');
+                loadMoreContainer.classList.add('hidden');
+                return;
+            } else {
+                noResults.classList.add('hidden');
+            }
+
+            pageData.forEach(stamp => {
+                const title = currentLang === 'ar' ? stamp.title_ar : stamp.theme_en;
+                const value = currentLang === 'ar' ? (stamp.details ? stamp.details.value : '') : stamp.value;
+                const finalValue = value ? (currentLang === 'ar' ? `${value} د.ج` : `${value} DA`) : '';
+
                 const card = document.createElement('div');
-                card.className = 'card-hover bg-white rounded-lg overflow-hidden border border-gray-200';
+                card.className = 'card-hover bg-white rounded-lg overflow-hidden border border-gray-200 cursor-pointer';
+                card.onclick = () => {
+                    location.href = `./details.html?id=${stamp.id}`;
+                };
+
                 card.innerHTML = `
                     <div class="stamp-frame p-4 aspect-square flex items-center justify-center overflow-hidden bg-gray-100">
-                        <img src="${stamp.image}" alt="${stamp.title}" class="w-full h-full object-contain hover:scale-110 transition duration-300" onerror="this.src='https://via.placeholder.com/250x300/006233/ffffff?text=صورة+غير+متوفرة'">
+                        <img src="${stamp.image_path}" alt="${title}" class="w-full h-full object-contain hover:scale-110 transition duration-300" loading="lazy" onerror="this.src='https://via.placeholder.com/250x300/006233/ffffff?text=Stamp'">
                     </div>
                     <div class="p-4">
-                        <h5 class="font-bold text-algerian-green mb-1 truncate" title="${stamp.title}">${stamp.title}</h5>
-                        <p class="text-sm text-gray-600 mb-3">${stamp.code}</p>
-                        <button onclick="openStampModal('${stamp.title}', '${stamp.code}', '${stamp.image}', '${stamp.date}', '${stamp.value}', '${stamp.artist}', '${stamp.printing}')" 
-                                class="w-full bg-algerian-green hover:bg-opacity-90 text-white py-2 rounded font-medium transition flex items-center justify-center gap-2 transform hover:scale-105 btn-animated">
-                            <i class="fas fa-info-circle"></i>التفاصيل
-                        </button>
+                        <h5 class="font-bold text-algerian-green mb-1 truncate" title="${title}">${title}</h5>
+                        <div class="flex justify-between items-center mt-2">
+                            <span class="text-xs font-semibold text-gray-500 bg-gray-100 px-2 py-1 rounded">${stamp.id}</span>
+                            <span class="text-sm font-bold text-heritage-gold">${finalValue}</span>
+                        </div>
                     </div>
                 `;
                 stampGrid.appendChild(card);
             });
-        }
 
-        // فتح النافذة المنبثقة
-        function openStampModal(title, code, image, date, value, artist, printing) {
-            currentStamp = {
-                title, code, image, date, value, artist, printing
-            };
-
-            document.getElementById('modalTitle').textContent = title;
-            document.getElementById('modalImage').src = image;
-            document.getElementById('modalCode').textContent = code;
-            document.getElementById('modalDate').textContent = date;
-            
-            // إضافة رمز العملة إذا لم يكن موجوداً
-            const finalValue = value.includes('دينار') || value.includes('DA') ? value : value + ' دينار';
-            document.getElementById('modalValue').textContent = finalValue;
-            
-            document.getElementById('modalArtist').textContent = artist || 'غير محدد';
-            document.getElementById('modalPrinting').innerHTML = `<i class="fas fa-print ml-2"></i>${printing || 'غير محدد'}`;
-
-            document.getElementById('stampModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        // إغلاق النافذة المنبثقة
-        function closeStampModal() {
-            document.getElementById('stampModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        // تحميل الصورة
-        function downloadStamp() {
-            const link = document.createElement('a');
-            link.href = currentStamp.image;
-            link.download = `stamp-${currentStamp.code}.jpg`;
-            link.click();
-            showNotification('تم بدء التحميل!');
-        }
-
-        // مشاركة الطابع
-        function shareStamp() {
-            const text = `شاهد طابع ${currentStamp.title} (${currentStamp.code}) من أرشيف ذاكرة الجزائر`;
-            
-            if (navigator.share) {
-                navigator.share({
-                    title: currentStamp.title,
-                    text: text,
-                });
+            // إظهار أو إخفاء زر تحميل المزيد
+            if (endIndex >= filteredStampsData.length) {
+                loadMoreContainer.classList.add('hidden');
             } else {
-                alert(text);
+                loadMoreContainer.classList.remove('hidden');
             }
         }
 
-        // إشعار
-        function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.className = 'fixed top-4 right-4 bg-algerian-green text-white px-6 py-3 rounded-lg shadow-lg animate-slide-in-right z-50';
-            notification.textContent = message;
-            document.body.appendChild(notification);
-
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
+        // تحميل الصفحة التالية
+        function loadNextPage() {
+            currentPage++;
+            renderStamps();
         }
 
-        // البحث
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            loadStamps(e.target.value);
-        });
+        // الفلترة السريعة من خلال الضغط على الحقب الزمنية
+        function filterByEra(yearPrefix) {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('searchInputMobile').value = '';
+            
+            // تحديد السنة الأقرب في الفلتر المنسدل إن وجدت
+            const yearFilter = document.getElementById('yearFilter');
+            yearFilter.value = '';
+            
+            // تصفية البيانات يدوياً لإظهار حقبة محددة
+            filteredStampsData = fullStampsData.filter(stamp => {
+                let dateStr = currentLang === 'ar' ? (stamp.details ? stamp.details.issue_date : '') : (stamp.issue_date || '');
+                if (!dateStr) return false;
 
-        // التنقل
-        document.getElementById('navbar').addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                document.getElementById('navbar').classList.add('scrolled');
-            } else {
-                document.getElementById('navbar').classList.remove('scrolled');
-            }
-        });
-
-        // التمرير السلس
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if (href !== '#') {
-                    e.preventDefault();
-                    const target = document.querySelector(href);
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
+                const match = dateStr.match(/\d{4}/);
+                if (match) {
+                    const year = parseInt(match[0]);
+                    if (yearPrefix === '1830') {
+                        return year < 1962;
+                    } else if (yearPrefix === '1962') {
+                        return year >= 1962 && year < 1970;
+                    } else if (yearPrefix === '1970') {
+                        return year >= 1970;
                     }
                 }
+                return false;
             });
-        });
 
-        // إغلاق بـ Escape
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closeStampModal();
-            }
-        });
+            currentPage = 1;
+            renderStamps();
 
-        // إغلاق عند الضغط خارج النافذة
-        document.getElementById('stampModal').addEventListener('click', function(event) {
-            if (event.target === this) {
-                closeStampModal();
+            // تمرير سلس للمعرض
+            document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // الفلترة السريعة للمجموعات الموضوعية
+        function filterByTheme(...keywords) {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('searchInputMobile').value = '';
+            resetFiltersUI();
+
+            filteredStampsData = fullStampsData.filter(stamp => {
+                let textToSearch = '';
+                if (currentLang === 'ar') {
+                    textToSearch = `${stamp.title_ar} ${stamp.description_ar}`.toLowerCase();
+                } else {
+                    textToSearch = `${stamp.theme_en} ${stamp.raw_text}`.toLowerCase();
+                }
+                return keywords.some(keyword => textToSearch.includes(keyword.toLowerCase()));
+            });
+
+            currentPage = 1;
+            renderStamps();
+
+            // تمرير سلس للمعرض
+            document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // فرز الطوابع حسب الأحدث
+        function sortStamps(type) {
+            if (type === 'latest') {
+                filteredStampsData.sort((a, b) => {
+                    let dateA = currentLang === 'ar' ? (a.details ? a.details.issue_date : '') : (a.issue_date || '');
+                    let dateB = currentLang === 'ar' ? (b.details ? b.details.issue_date : '') : (b.issue_date || '');
+
+                    // استخراج السنة واليوم والشهر للفرز المقارن
+                    const yearA = dateA.match(/\d{4}/) ? parseInt(dateA.match(/\d{4}/)[0]) : 0;
+                    const yearB = dateB.match(/\d{4}/) ? parseInt(dateB.match(/\d{4}/)[0]) : 0;
+
+                    return yearB - yearA; // الأحدث أولاً
+                });
+                currentPage = 1;
+                renderStamps();
             }
-        });
+        }
+
+        // إظهار لوحة التصفية المتقدمة
+        function toggleAdvancedFilter() {
+            const panel = document.getElementById('advancedFilterPanel');
+            panel.classList.toggle('active');
+        }
+
+        function resetFiltersUI() {
+            document.getElementById('yearFilter').value = '';
+            document.getElementById('designerFilter').value = '';
+            document.getElementById('printerFilter').value = '';
+        }
+
+        function resetFilters() {
+            resetFiltersUI();
+            filterStamps();
+        }
+
+        // إظهار البحث للجوال
+        function toggleMobileSearch() {
+            const container = document.getElementById('mobileSearchContainer');
+            container.classList.toggle('hidden');
+        }
 
         // التمرير للأعلى
         function scrollToTop() {
@@ -1461,9 +1313,18 @@
             });
         }
 
-        // تحميل الطوابع عند بدء التطبيق
-        window.addEventListener('load', () => {
-            loadStamps();
+        // ربط أحداث الإدخال للبحث
+        document.getElementById('searchInput').addEventListener('input', () => {
+            filterStamps();
+        });
+        document.getElementById('searchInputMobile').addEventListener('input', () => {
+            filterStamps();
+        });
+
+        // تشغيل التهيئة عند بدء تحميل الصفحة
+        window.addEventListener('DOMContentLoaded', () => {
+            applyLanguage();
+            loadFullData();
         });
 
         // تأثير scroll للـ navbar
