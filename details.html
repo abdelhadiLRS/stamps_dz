@@ -548,8 +548,14 @@
                 description = stamp.raw_text || '-';
             }
 
+            // تصحيح مسار الصورة ليكون نسبياً للتوافق التام مع أي خادم أو مسار محلي
+            let correctedImagePath = imagePath || '';
+            if (correctedImagePath.startsWith('/')) {
+                correctedImagePath = '.' + correctedImagePath;
+            }
+
             // تطبيق القيم على عناصر الصفحة
-            document.getElementById('stampImage').src = imagePath;
+            document.getElementById('stampImage').src = correctedImagePath;
             document.getElementById('stampTitleLabel').textContent = title;
             document.getElementById('stampIdLabel').textContent = code;
 
@@ -586,7 +592,11 @@
         function downloadImage() {
             if (!currentStamp) return;
             const link = document.createElement('a');
-            link.href = currentStamp.image_path;
+            let imagePath = currentStamp.image_path || '';
+            if (imagePath.startsWith('/')) {
+                imagePath = '.' + imagePath;
+            }
+            link.href = imagePath;
             link.download = `stamp-${currentStamp.id}.png`;
             link.click();
         }

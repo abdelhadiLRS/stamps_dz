@@ -1177,9 +1177,15 @@
                     location.href = `./details.html?id=${stamp.id}`;
                 };
 
+                // تصحيح مسار الصورة ليكون نسبياً للتوافق التام مع أي خادم أو مسار محلي
+                let imagePath = stamp.image_path || '';
+                if (imagePath.startsWith('/')) {
+                    imagePath = '.' + imagePath;
+                }
+
                 card.innerHTML = `
                     <div class="stamp-frame p-4 aspect-square flex items-center justify-center overflow-hidden bg-gray-100">
-                        <img src="${stamp.image_path}" alt="${title}" class="w-full h-full object-contain hover:scale-110 transition duration-300" loading="lazy" onerror="this.src='https://via.placeholder.com/250x300/006233/ffffff?text=Stamp'">
+                        <img src="${imagePath}" alt="${title}" class="w-full h-full object-contain hover:scale-110 transition duration-300" loading="lazy" onerror="this.src='https://via.placeholder.com/250x300/006233/ffffff?text=Stamp'">
                     </div>
                     <div class="p-4">
                         <h5 class="font-bold text-algerian-green mb-1 truncate" title="${title}">${title}</h5>
