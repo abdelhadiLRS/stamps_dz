@@ -9,6 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -19,6 +20,13 @@
                     }
                 }
             }
+        }
+    </script>
+    <script>
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
         }
     </script>
 
@@ -88,12 +96,37 @@
                 radial-gradient(circle at 55px 75px, transparent 12px, white 13px),
                 radial-gradient(circle at 75px 75px, transparent 12px, white 13px);
             border: 2px solid #ddd;
+            transition: var(--transition-smooth);
+        }
+
+        .dark .stamp-frame {
+            background: #18181b; /* zinc-900 */
+            border-color: #27272a; /* zinc-800 */
+            background-image:
+                radial-gradient(circle at 15px 15px, transparent 12px, #18181b 13px),
+                radial-gradient(circle at 35px 15px, transparent 12px, #18181b 13px),
+                radial-gradient(circle at 55px 15px, transparent 12px, #18181b 13px),
+                radial-gradient(circle at 75px 15px, transparent 12px, #18181b 13px),
+                radial-gradient(circle at 15px 35px, transparent 12px, #18181b 13px),
+                radial-gradient(circle at 75px 35px, transparent 12px, #18181b 13px),
+                radial-gradient(circle at 15px 55px, transparent 12px, #18181b 13px),
+                radial-gradient(circle at 75px 55px, transparent 12px, #18181b 13px),
+                radial-gradient(circle at 15px 75px, transparent 12px, #18181b 13px),
+                radial-gradient(circle at 35px 75px, transparent 12px, #18181b 13px),
+                radial-gradient(circle at 55px 75px, transparent 12px, #18181b 13px),
+                radial-gradient(circle at 75px 75px, transparent 12px, #18181b 13px);
         }
 
         .navbar-glass {
             backdrop-filter: blur(10px);
             background-color: rgba(255, 255, 255, 0.85);
             border-bottom: 1px solid rgba(0, 98, 51, 0.1);
+            transition: var(--transition-smooth);
+        }
+
+        .dark .navbar-glass {
+            background-color: rgba(9, 9, 11, 0.85);
+            border-bottom: 1px solid rgba(0, 98, 51, 0.2);
         }
 
         .btn-animated {
@@ -125,9 +158,68 @@
         .glow-effect:hover {
             box-shadow: 0 0 30px rgba(0, 98, 51, 0.4);
         }
+
+        /* Styles for printing the stamp card beautifully */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            nav, footer, .mb-8, .no-print {
+                display: none !important;
+            }
+            main {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .grid {
+                display: block !important;
+            }
+            .stamp-frame {
+                box-shadow: none !important;
+                border: 1px solid #ccc !important;
+                max-width: 250px !important;
+                margin: 0 auto 2rem auto !important;
+            }
+            .lg\:col-span-7 {
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+            }
+        }
+
+        /* حماية الصور والبصمة المائية */
+        .protect-image {
+            user-select: none;
+            -webkit-user-drag: none;
+            pointer-events: none;
+        }
+
+        .watermark-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.12; /* شفافة بما فيه الكفاية ولا تمنع المشاهدة */
+            user-select: none;
+            z-index: 10;
+        }
+
+        .watermark-text {
+            font-size: 10px;
+            font-weight: 800;
+            border: 1.5px solid currentColor;
+            padding: 2px 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transform: rotate(-30deg);
+            white-space: nowrap;
+        }
     </style>
 </head>
-<body class="bg-gray-50" dir="rtl">
+<body class="bg-gray-50 dark:bg-zinc-950 text-gray-900 dark:text-zinc-100 transition-colors duration-300" dir="rtl">
 
     <!-- ===== شريط التنقل (Navbar) ===== -->
     <nav class="navbar-glass sticky top-0 z-50 shadow-sm" id="navbar">
@@ -139,29 +231,34 @@
                         <i class="fas fa-envelope-open text-white text-xl" style="transform: skewX(-10deg);"></i>
                     </div>
                     <div>
-                        <h1 class="text-xl font-bold text-algerian-green" data-translate="siteTitle">ذاكرة الجزائر</h1>
-                        <p class="text-xs text-gray-600" data-translate="siteSubtitle">أرشيف الطوابع الرقمي</p>
+                        <h1 class="text-xl font-bold text-algerian-green dark:text-green-500" data-translate="siteTitle">ذاكرة الجزائر</h1>
+                        <p class="text-xs text-gray-600 dark:text-gray-400" data-translate="siteSubtitle">أرشيف الطوابع الرقمي</p>
                     </div>
                 </div>
 
                 <!-- الروابط -->
                 <div class="hidden md:flex items-center gap-8">
-                    <a href="./index.html#gallery" class="text-gray-700 hover:text-algerian-green font-medium transition relative group" data-translate="mainGallery">
+                    <a href="./index.html#gallery" class="text-gray-700 dark:text-gray-300 hover:text-algerian-green dark:hover:text-green-500 font-medium transition relative group" data-translate="mainGallery">
                         المعرض الرئيسي
                     </a>
-                    <a href="./index.html#eras" class="text-gray-700 hover:text-algerian-green font-medium transition relative group" data-translate="eras">
+                    <a href="./index.html#eras" class="text-gray-700 dark:text-gray-300 hover:text-algerian-green dark:hover:text-green-500 font-medium transition relative group" data-translate="eras">
                         الحقب الزمنية
                     </a>
-                    <a href="./index.html#collections" class="text-gray-700 hover:text-algerian-green font-medium transition relative group" data-translate="collections">
+                    <a href="./index.html#collections" class="text-gray-700 dark:text-gray-300 hover:text-algerian-green dark:hover:text-green-500 font-medium transition relative group" data-translate="collections">
                         المجموعات
                     </a>
-                    <a href="./index.html#about" class="text-gray-700 hover:text-algerian-green font-medium transition relative group" data-translate="about">
+                    <a href="./index.html#about" class="text-gray-700 dark:text-gray-300 hover:text-algerian-green dark:hover:text-green-500 font-medium transition relative group" data-translate="about">
                         عن الأرشيف
                     </a>
                 </div>
 
-                <!-- اللغة والموبايل -->
+                <!-- اللغة والوضع الداكن -->
                 <div class="flex items-center gap-4">
+                    <!-- Dark Mode Toggle Button (Desktop) -->
+                    <button id="darkModeToggle" onclick="toggleDarkMode()" class="w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-200 rounded-full hover:bg-gray-200 dark:hover:bg-zinc-700 transition transform hover:scale-105 shadow-sm" title="Toggle Dark/Light Mode">
+                        <i class="fas fa-moon text-lg"></i>
+                    </button>
+
                     <button id="langToggle" onclick="toggleLanguage()" class="px-4 py-2 bg-heritage-gold text-white rounded-full text-sm font-bold hover:bg-opacity-90 transition transform hover:scale-105 shadow-sm">
                         English
                     </button>
@@ -174,35 +271,47 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
         <!-- زر العودة للأرشيف -->
-        <div class="mb-8">
-            <button onclick="location.href='./index.html'" class="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-200 text-gray-700 rounded-full font-bold hover:bg-gray-300 transition transform hover:scale-105 shadow-sm">
+        <div class="mb-8 flex justify-between items-center no-print">
+            <button onclick="location.href='./index.html'" class="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-200 dark:bg-zinc-800 text-gray-700 dark:text-gray-200 rounded-full font-bold hover:bg-gray-300 dark:hover:bg-zinc-700 transition transform hover:scale-105 shadow-sm">
                 <i class="fas id-arrow-icon fa-arrow-right"></i>
                 <span data-translate="backBtn">الرجوع للأرشيف</span>
+            </button>
+            <button onclick="window.print()" class="inline-flex items-center gap-2 px-5 py-2.5 bg-heritage-gold text-white rounded-full font-bold hover:bg-opacity-90 transition transform hover:scale-105 shadow-sm">
+                <i class="fas fa-print"></i>
+                <span data-translate="printCard">طباعة البطاقة</span>
             </button>
         </div>
 
         <div id="detailsContent" class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             <!-- Left Side: Stamp Image -->
             <div class="lg:col-span-5 flex justify-center">
-                <div class="stamp-frame p-6 bg-white w-full max-w-md">
-                    <div class="bg-gradient-to-br from-algerian-green to-algerian-red p-1.5 rounded shadow-md">
-                        <img id="stampImage" src="" alt="طابع" class="w-full h-auto rounded bg-white max-h-[500px] object-contain">
+                <div class="stamp-frame p-6 bg-white dark:bg-zinc-900 w-full max-w-md relative group select-none">
+                    <div class="bg-gradient-to-br from-algerian-green to-algerian-red p-1.5 rounded shadow-md cursor-zoom-in relative overflow-hidden" onclick="openLightbox()">
+                        <img id="stampImage" src="" alt="طابع" class="w-full h-auto rounded bg-white dark:bg-zinc-950 max-h-[500px] object-contain transition duration-300 group-hover:scale-[1.02] protect-image" draggable="false">
+                        <!-- Watermark Overlay -->
+                        <div class="watermark-overlay text-gray-800 dark:text-gray-200">
+                            <span class="watermark-text">ذاكرة الجزائر | ALGERIA MEMORY</span>
+                        </div>
                     </div>
-                    <div class="mt-6 text-center border-t border-gray-100 pt-4">
-                        <p id="stampTitleLabel" class="font-bold text-2xl text-algerian-green mb-1"></p>
-                        <p id="stampIdLabel" class="text-sm font-semibold text-gray-500 bg-gray-100 px-3 py-1.5 rounded-full inline-block mt-2"></p>
+                    <!-- Zoom badge indicator -->
+                    <span class="absolute bottom-28 right-8 bg-black bg-opacity-60 text-white text-[11px] font-bold px-2 py-1 rounded flex items-center gap-1 cursor-pointer no-print z-20" onclick="openLightbox()">
+                        <i class="fas fa-search-plus"></i> <span data-translate="zoomPrompt">اضغط للتكبير</span>
+                    </span>
+                    <div class="mt-6 text-center border-t border-gray-100 dark:border-zinc-800 pt-4">
+                        <p id="stampTitleLabel" class="font-bold text-2xl text-algerian-green dark:text-green-500 mb-1"></p>
+                        <p id="stampIdLabel" class="text-sm font-semibold text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-zinc-800 px-3 py-1.5 rounded-full inline-block mt-2"></p>
                     </div>
                 </div>
             </div>
 
             <!-- Right Side: Structured Details Card -->
-            <div class="lg:col-span-7 bg-white rounded-2xl border border-gray-200 shadow-sm p-8 space-y-8">
+            <div class="lg:col-span-7 bg-white dark:bg-zinc-900 rounded-2xl border border-gray-200 dark:border-zinc-800 shadow-sm p-8 space-y-8">
                 <div>
-                    <h2 class="text-3xl font-extrabold text-algerian-green mb-2" data-translate="detailsTitle">تفاصيل الطابع</h2>
+                    <h2 class="text-3xl font-extrabold text-algerian-green dark:text-green-500 mb-2" data-translate="detailsTitle">تفاصيل الطابع</h2>
                     <div class="h-1 w-20 bg-heritage-gold rounded-full"></div>
                 </div>
 
-                <!-- شبكة التفاصيل -->
+                <!-- شبكة التفاصيل الأساسية -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                     <!-- الرقم التسلسلي -->
@@ -251,52 +360,80 @@
 
                 </div>
 
-                <!-- تفاصيل تقنية إضافية -->
-                <div class="border-t border-gray-100 pt-6 space-y-4">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-50 pb-3 gap-2">
-                        <span class="text-sm font-semibold text-gray-500 flex items-center gap-2">
-                            <i class="fas fa-print text-algerian-green"></i>
+                <!-- تفاصيل تقنية إضافية (بما في ذلك رقم صفحة الكتالوج) -->
+                <div class="border-t border-gray-100 dark:border-zinc-800 pt-6 space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-50 dark:border-zinc-800 pb-3 gap-2">
+                        <span class="text-sm font-semibold text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                            <i class="fas fa-book text-algerian-green dark:text-green-500"></i>
+                            <span data-translate="catalogPage">رقم صفحة الكتالوج الأصلي</span>
+                        </span>
+                        <span id="detailCatalogPage" class="text-sm font-bold text-gray-800 dark:text-gray-200">-</span>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-50 dark:border-zinc-800 pb-3 gap-2">
+                        <span class="text-sm font-semibold text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                            <i class="fas fa-print text-algerian-green dark:text-green-500"></i>
                             <span data-translate="printer">طريقة الطباعة (الطابعة)</span>
                         </span>
-                        <span id="detailPrinter" class="text-sm font-bold text-gray-800">-</span>
+                        <span id="detailPrinter" class="text-sm font-bold text-gray-800 dark:text-gray-200">-</span>
                     </div>
 
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-50 pb-3 gap-2">
-                        <span class="text-sm font-semibold text-gray-500 flex items-center gap-2">
-                            <i class="fas fa-expand text-algerian-green"></i>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-50 dark:border-zinc-800 pb-3 gap-2">
+                        <span class="text-sm font-semibold text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                            <i class="fas fa-expand text-algerian-green dark:text-green-500"></i>
                             <span data-translate="dimensions">الأبعاد</span>
                         </span>
-                        <span id="detailDimensions" class="text-sm font-bold text-gray-800">-</span>
+                        <span id="detailDimensions" class="text-sm font-bold text-gray-800 dark:text-gray-200">-</span>
                     </div>
 
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-50 pb-3 gap-2">
-                        <span class="text-sm font-semibold text-gray-500 flex items-center gap-2">
-                            <i class="fas fa-border-style text-algerian-green"></i>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-50 dark:border-zinc-800 pb-3 gap-2">
+                        <span class="text-sm font-semibold text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                            <i class="fas fa-border-style text-algerian-green dark:text-green-500"></i>
                             <span data-translate="perforation">التخريد / التسنن</span>
                         </span>
-                        <span id="detailPerforation" class="text-sm font-bold text-gray-800">-</span>
+                        <span id="detailPerforation" class="text-sm font-bold text-gray-800 dark:text-gray-200">-</span>
                     </div>
 
-                    <div id="withdrawalRow" class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-50 pb-3 gap-2 hidden">
-                        <span class="text-sm font-semibold text-gray-500 flex items-center gap-2">
-                            <i class="fas fa-ban text-algerian-green"></i>
+                    <div id="withdrawalRow" class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-50 dark:border-zinc-800 pb-3 gap-2 hidden">
+                        <span class="text-sm font-semibold text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                            <i class="fas fa-ban text-algerian-green dark:text-green-500"></i>
                             <span data-translate="withdrawalDate">تاريخ السحب</span>
                         </span>
-                        <span id="detailWithdrawal" class="text-sm font-bold text-gray-800">-</span>
+                        <span id="detailWithdrawal" class="text-sm font-bold text-gray-800 dark:text-gray-200">-</span>
                     </div>
                 </div>
 
-                <!-- الوصف -->
-                <div class="bg-gray-50 p-6 rounded-xl border border-gray-100">
-                    <h4 class="font-bold text-lg text-algerian-green mb-3 flex items-center gap-2">
-                        <i class="fas fa-info-circle"></i>
-                        <span>نبذة عن الطابع</span>
-                    </h4>
-                    <p id="detailDescription" class="text-gray-700 leading-relaxed text-sm whitespace-pre-line">-</p>
+                <!-- الوصف والنبذة ثنائية اللغة -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+                    <!-- Arabic description (نبذة بالعربية) -->
+                    <div class="bg-gray-50 dark:bg-zinc-950 p-6 rounded-xl border border-gray-100 dark:border-zinc-800 flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-lg text-algerian-green dark:text-green-500 mb-3 flex items-center gap-2">
+                                <i class="fas fa-info-circle"></i>
+                                <span>نبذة عن الطابع (العربية)</span>
+                            </h4>
+                            <p id="detailDescriptionAr" class="text-gray-700 dark:text-gray-300 leading-relaxed text-sm whitespace-pre-line"></p>
+                        </div>
+                    </div>
+
+                    <!-- English description (English Details) -->
+                    <div class="bg-gray-50 dark:bg-zinc-950 p-6 rounded-xl border border-gray-100 dark:border-zinc-800 flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-lg text-algerian-green dark:text-green-500 mb-3 flex items-center gap-2">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Theme & Details (English)</span>
+                            </h4>
+                            <p id="detailDescriptionEn" class="text-gray-700 dark:text-gray-300 leading-relaxed text-sm whitespace-pre-line font-mono"></p>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- أزرار الإجراءات -->
-                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                <div class="flex flex-col sm:flex-row gap-4 pt-4 no-print">
+                    <button id="favoriteBtn" onclick="toggleDetailsFavorite()" class="flex-1 bg-gray-200 dark:bg-zinc-800 hover:bg-opacity-90 text-gray-800 dark:text-gray-100 font-bold py-3 px-6 rounded-xl transition flex items-center justify-center gap-2 transform hover:scale-105 btn-animated shadow-md">
+                        <i id="favoriteIcon" class="fa-regular fa-heart"></i>
+                        <span id="favoriteText" data-translate="favoriteBtn">إضافة للمفضلة</span>
+                    </button>
                     <button onclick="downloadImage()" class="flex-1 bg-algerian-green hover:bg-opacity-90 text-white font-bold py-3 px-6 rounded-xl transition flex items-center justify-center gap-2 transform hover:scale-105 btn-animated shadow-md glow-effect">
                         <i class="fas fa-download"></i>
                         <span data-translate="downloadBtn">تحميل الصورة</span>
@@ -321,8 +458,31 @@
         </div>
     </main>
 
+    <!-- ===== نافذة التكبير الضوئي (Lightbox Modal) ===== -->
+    <div id="lightboxModal" class="fixed inset-0 z-50 overflow-y-auto hidden no-print" role="dialog" aria-modal="true">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="fixed inset-0 transition-opacity bg-black bg-opacity-90" onclick="closeLightbox()"></div>
+
+            <div class="relative z-10 max-w-3xl max-h-[85vh] w-full flex flex-col items-center justify-center select-none">
+                <!-- Close Button -->
+                <button onclick="closeLightbox()" class="absolute -top-12 right-0 flex items-center justify-center w-10 h-10 text-white bg-white bg-opacity-20 rounded-full hover:bg-opacity-30 transition focus:outline-none z-20">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+
+                <div class="relative overflow-hidden bg-white dark:bg-zinc-900 p-4 rounded-lg shadow-2xl">
+                    <img id="lightboxImage" src="" alt="High resolution stamp" class="max-w-full max-h-[72vh] object-contain protect-image" draggable="false">
+                    <!-- Watermark Overlay -->
+                    <div class="watermark-overlay text-gray-800 dark:text-gray-200 opacity-20">
+                        <span class="watermark-text text-sm">ذاكرة الجزائر | ALGERIA MEMORY</span>
+                    </div>
+                </div>
+                <p id="lightboxTitle" class="text-white font-bold text-xl mt-4 text-center"></p>
+            </div>
+        </div>
+    </div>
+
     <!-- ===== تذييل الصفحة (Footer) ===== -->
-    <footer class="bg-dark text-white py-16 mt-20">
+    <footer class="bg-dark text-white py-16 mt-20 no-print">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
                 <div>
@@ -383,6 +543,9 @@
         </div>
     </footer>
 
+    <!-- Include the merged data loader -->
+    <script src="stamps_merger.js"></script>
+
     <script>
         const uiTranslations = {
             ar: {
@@ -409,7 +572,10 @@
                 followUs: "تابعنا",
                 disclaimer: "<strong>تنويه:</strong> هذا الموقع غير مخصص للتجارة أو البيع. جميع الطوابع المعروضة هي لأغراض توثيقية وتاريخية حصرياً.",
                 rights: "جميع الحقوق محفوظة",
-                developedBy: "تطوير وتصميم Abdelhadi"
+                developedBy: "تطوير وتصميم Abdelhadi",
+                catalogPage: "رقم صفحة الكتالوج الأصلي",
+                printCard: "طباعة البطاقة",
+                zoomPrompt: "اضغط للتكبير"
             },
             en: {
                 siteTitle: "Algeria Memory",
@@ -435,18 +601,95 @@
                 followUs: "Follow Us",
                 disclaimer: "<strong>Disclaimer:</strong> This site is not for commerce or sale. All stamps displayed are exclusively for documentary and historical purposes.",
                 rights: "All rights reserved",
-                developedBy: "Developed & Designed by Abdelhadi"
+                developedBy: "Developed & Designed by Abdelhadi",
+                catalogPage: "Original Catalog Page Number",
+                printCard: "Print Card",
+                zoomPrompt: "Click to Zoom"
             }
         };
 
         let currentLang = localStorage.getItem('lang') || 'ar';
         let currentStamp = null;
 
+        function toggleDarkMode() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+            updateDarkModeButtons();
+        }
+
+        function updateDarkModeButtons() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const sunIcon = '<i class="fas fa-sun text-lg text-yellow-500"></i>';
+            const moonIcon = '<i class="fas fa-moon text-lg text-gray-700 dark:text-gray-300"></i>';
+
+            const btn = document.getElementById('darkModeToggle');
+            if (btn) btn.innerHTML = isDark ? sunIcon : moonIcon;
+        }
+
+        function getFavorites() {
+            try {
+                return JSON.parse(localStorage.getItem('favoriteStamps')) || [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function isFavorite(stampId) {
+            return getFavorites().includes(stampId);
+        }
+
+        function toggleFavorite(stampId) {
+            let favs = getFavorites();
+            if (favs.includes(stampId)) {
+                favs = favs.filter(id => id !== stampId);
+            } else {
+                favs.push(stampId);
+            }
+            localStorage.setItem('favoriteStamps', JSON.stringify(favs));
+        }
+
+        function toggleDetailsFavorite() {
+            if (currentStamp) {
+                toggleFavorite(currentStamp.id);
+                updateDetailsFavoriteBtn();
+            }
+        }
+
+        function updateDetailsFavoriteBtn() {
+            if (!currentStamp) return;
+            const btn = document.getElementById('favoriteBtn');
+            const icon = document.getElementById('favoriteIcon');
+            const text = document.getElementById('favoriteText');
+
+            const isFav = isFavorite(currentStamp.id);
+
+            if (isFav) {
+                if (icon) icon.className = 'fa-solid fa-heart text-algerian-red text-md';
+                if (text) {
+                    text.textContent = currentLang === 'ar' ? 'حذف من المفضلة' : 'Remove from Favorites';
+                    text.setAttribute('data-translate', 'favoriteBtn_remove');
+                }
+            } else {
+                if (icon) icon.className = 'fa-regular fa-heart text-md';
+                if (text) {
+                    text.textContent = currentLang === 'ar' ? 'إضافة للمفضلة' : 'Add to Favorites';
+                    text.setAttribute('data-translate', 'favoriteBtn_add');
+                }
+            }
+        }
+
         function toggleLanguage() {
             currentLang = currentLang === 'ar' ? 'en' : 'ar';
             localStorage.setItem('lang', currentLang);
             applyLanguage();
-            loadStampDetails();
+            if (currentStamp) {
+                renderStampDetails(currentStamp);
+            }
         }
 
         function applyLanguage() {
@@ -487,10 +730,7 @@
                 return;
             }
 
-            const dataUrl = currentLang === 'ar' ? './stamps_data.json' : './stamps_data_en.json';
-
-            fetch(dataUrl)
-                .then(res => res.json())
+            loadAndMergeStampsData()
                 .then(data => {
                     const stamp = data.find(s => s.id === stampId);
                     if (!stamp) {
@@ -513,59 +753,38 @@
             const isAr = currentLang === 'ar';
 
             // البيانات الأساسية
-            const title = isAr ? stamp.title_ar : stamp.theme_en;
-            const imagePath = stamp.image_path;
+            const title = stamp.title;
             const code = stamp.id;
 
-            // تحديد قيم الحقول بناءً على هيكلة لغة الملف
-            let date = '';
-            let value = '';
-            let designer = '';
-            let printer = '';
-            let dimensions = '';
-            let perforation = '';
-            let withdrawal = '';
-            let description = '';
-
-            if (isAr) {
-                const det = stamp.details || {};
-                date = det.issue_date || '-';
-                value = det.value ? `${det.value} د.ج` : '-';
-                designer = det.designer || '-';
-                printer = det.printer || '-';
-                dimensions = det.dimensions || '-';
-                perforation = det.perforation || '-';
-                withdrawal = det.withdrawal_date || '';
-                description = stamp.description_ar || '-';
-            } else {
-                date = stamp.issue_date || '-';
-                value = stamp.value ? `${stamp.value} DA` : '-';
-                designer = stamp.designer || '-';
-                printer = stamp.printer || '-';
-                dimensions = stamp.dimensions || '-';
-                perforation = stamp.perforation || '-';
-                withdrawal = ''; // غير موجود بوضوح في ملف الإنجليزي
-                description = stamp.raw_text || '-';
-            }
+            // تحديد قيم الحقول
+            const date = stamp.issue_date || '-';
+            const val = stamp.value;
+            const valueStr = val ? (isAr ? `${val} د.ج` : `${val} DA`) : '-';
+            const designer = stamp.designer || '-';
+            const printer = stamp.printer || '-';
+            const dimensions = stamp.dimensions || '-';
+            const perforation = stamp.perforation || '-';
+            const withdrawal = stamp.withdrawal_date || '';
 
             // تصحيح مسار الصورة ليكون نسبياً للتوافق التام مع أي خادم أو مسار محلي
-            let correctedImagePath = imagePath || '';
-            if (correctedImagePath.startsWith('/')) {
-                correctedImagePath = '.' + correctedImagePath;
+            let imagePath = stamp.image_path || '';
+            if (imagePath.startsWith('/')) {
+                imagePath = '.' + imagePath;
             }
 
             // تطبيق القيم على عناصر الصفحة
-            document.getElementById('stampImage').src = correctedImagePath;
+            document.getElementById('stampImage').src = imagePath;
             document.getElementById('stampTitleLabel').textContent = title;
             document.getElementById('stampIdLabel').textContent = code;
 
             document.getElementById('detailId').textContent = code;
             document.getElementById('detailDate').textContent = date;
-            document.getElementById('detailValue').textContent = value;
+            document.getElementById('detailValue').textContent = valueStr;
             document.getElementById('detailDesigner').textContent = designer;
             document.getElementById('detailPrinter').textContent = printer;
             document.getElementById('detailDimensions').textContent = dimensions;
             document.getElementById('detailPerforation').textContent = perforation;
+            document.getElementById('detailCatalogPage').textContent = stamp.page_number || '-';
 
             // تاريخ السحب
             const withdrawalRow = document.getElementById('withdrawalRow');
@@ -576,8 +795,12 @@
                 withdrawalRow.classList.add('hidden');
             }
 
-            // نبذة أو وصف
-            document.getElementById('detailDescription').textContent = description;
+            // نبذة أو وصف ثنائي اللغة (يتم تعبئتهما دائماً بغض النظر عن اللغة الحالية)
+            document.getElementById('detailDescriptionAr').textContent = stamp.description_ar || '-';
+            document.getElementById('detailDescriptionEn').textContent = stamp.raw_text_en || '-';
+
+            // تحديث حالة زر المفضلة
+            updateDetailsFavoriteBtn();
 
             // تحديث عنوان التبويب
             document.title = `${title} | ${isAr ? 'ذاكرة الجزائر' : 'Algeria Memory'}`;
@@ -623,9 +846,35 @@
             }
         }
 
+        // Lightbox Zoom Functions
+        function openLightbox() {
+            if (!currentStamp) return;
+            let imagePath = currentStamp.image_path || '';
+            if (imagePath.startsWith('/')) {
+                imagePath = '.' + imagePath;
+            }
+            document.getElementById('lightboxImage').src = imagePath;
+            document.getElementById('lightboxTitle').textContent = currentStamp.title;
+            document.getElementById('lightboxModal').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightboxModal').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             applyLanguage();
+            updateDarkModeButtons();
             loadStampDetails();
+        });
+
+        // حماية الصور من السرقة والنسخ
+        document.addEventListener('contextmenu', (e) => {
+            if (e.target.classList.contains('protect-image')) {
+                e.preventDefault();
+            }
         });
     </script>
 </body>
