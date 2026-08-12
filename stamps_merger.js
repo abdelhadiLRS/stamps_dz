@@ -20,6 +20,15 @@ async function loadAndMergeStampsData() {
         // Merge them
         const merged = dataAr.map(item => {
             const enItem = enMap.get(item.id) || {};
+
+            // Normalize path safely to make sure absolute paths (starting with /) are converted to relative paths (starting with ./)
+            let rawPath = item.image_path || enItem.image_path || '';
+            if (rawPath.startsWith('/')) {
+                rawPath = '.' + rawPath;
+            } else if (rawPath && !rawPath.startsWith('.')) {
+                rawPath = './' + rawPath;
+            }
+
             return {
                 id: item.id,
                 page_number: item.page_number || enItem.page_number,
@@ -40,7 +49,7 @@ async function loadAndMergeStampsData() {
                 raw_text_en: enItem.raw_text,
 
                 // Common/Combined
-                image_path: item.image_path || enItem.image_path,
+                image_path: rawPath,
 
                 // Fallbacks/Helper properties
                 get title() {
