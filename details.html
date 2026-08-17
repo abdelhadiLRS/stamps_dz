@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="detailsTitle">تفاصيل الطابع | ذاكرة الجزائر</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'algerian-green': '#006233',
+                        'algerian-red': '#D21034',
+                        'heritage-gold': '#C5A059',
+                        'dark': '#1a202c',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts - Tajawal -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            font-family: 'Tajawal', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --color-algerian-green: #006233;
+            --color-algerian-red: #D21034;
+            --color-heritage-gold: #C5A059;
+            --color-dark: #1a202c;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #006233;
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #004d28;
+        }
+
+        .bg-algerian-green { background-color: #006233; }
+        .bg-algerian-red { background-color: #D21034; }
+        .bg-heritage-gold { background-color: #C5A059; }
+        .text-algerian-green { color: #006233; }
+        .text-algerian-red { color: #D21034; }
+        .text-heritage-gold { color: #C5A059; }
+        .border-algerian-green { border-color: #006233; }
+
+        /* تأثير الطابع المثقوب */
+        .stamp-frame {
+            position: relative;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            background-image:
+                radial-gradient(circle at 15px 15px, transparent 12px, white 13px),
+                radial-gradient(circle at 35px 15px, transparent 12px, white 13px),
+                radial-gradient(circle at 55px 15px, transparent 12px, white 13px),
+                radial-gradient(circle at 75px 15px, transparent 12px, white 13px),
+                radial-gradient(circle at 15px 35px, transparent 12px, white 13px),
+                radial-gradient(circle at 75px 35px, transparent 12px, white 13px),
+                radial-gradient(circle at 15px 55px, transparent 12px, white 13px),
+                radial-gradient(circle at 75px 55px, transparent 12px, white 13px),
+                radial-gradient(circle at 15px 75px, transparent 12px, white 13px),
+                radial-gradient(circle at 35px 75px, transparent 12px, white 13px),
+                radial-gradient(circle at 55px 75px, transparent 12px, white 13px),
+                radial-gradient(circle at 75px 75px, transparent 12px, white 13px);
+            border: 2px solid #ddd;
+        }
+
+        .navbar-glass {
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.85);
+            border-bottom: 1px solid rgba(0, 98, 51, 0.1);
+        }
+
+        .btn-animated {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-animated::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .btn-animated:hover::before {
+            left: 100%;
+        }
+
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(0, 98, 51, 0.2);
+        }
+
+        .glow-effect:hover {
+            box-shadow: 0 0 30px rgba(0, 98, 51, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-gray-50" dir="rtl">
+
+    <!-- ===== شريط التنقل (Navbar) ===== -->
+    <nav class="navbar-glass sticky top-0 z-50 shadow-sm" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- الشعار -->
+                <div class="flex items-center gap-3 cursor-pointer hover:opacity-80 transition" onclick="location.href='./index.html'">
+                    <div class="bg-algerian-green p-2 rounded-lg transform hover:scale-110 transition">
+                        <i class="fas fa-envelope-open text-white text-xl" style="transform: skewX(-10deg);"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-algerian-green" data-translate="siteTitle">ذاكرة الجزائر</h1>
+                        <p class="text-xs text-gray-600" data-translate="siteSubtitle">أرشيف الطوابع الرقمي</p>
+                    </div>
+                </div>
+
+                <!-- الروابط -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="./index.html#gallery" class="text-gray-700 hover:text-algerian-green font-medium transition relative group" data-translate="mainGallery">
+                        المعرض الرئيسي
+                    </a>
+                    <a href="./index.html#eras" class="text-gray-700 hover:text-algerian-green font-medium transition relative group" data-translate="eras">
+                        الحقب الزمنية
+                    </a>
+                    <a href="./index.html#collections" class="text-gray-700 hover:text-algerian-green font-medium transition relative group" data-translate="collections">
+                        المجموعات
+                    </a>
+                    <a href="./index.html#about" class="text-gray-700 hover:text-algerian-green font-medium transition relative group" data-translate="about">
+                        عن الأرشيف
+                    </a>
+                </div>
+
+                <!-- اللغة والموبايل -->
+                <div class="flex items-center gap-4">
+                    <button id="langToggle" onclick="toggleLanguage()" class="px-4 py-2 bg-heritage-gold text-white rounded-full text-sm font-bold hover:bg-opacity-90 transition transform hover:scale-105 shadow-sm">
+                        English
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== محتوى تفاصيل الطابع ===== -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+        <!-- زر العودة للأرشيف -->
+        <div class="mb-8">
+            <button onclick="location.href='./index.html'" class="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-200 text-gray-700 rounded-full font-bold hover:bg-gray-300 transition transform hover:scale-105 shadow-sm">
+                <i class="fas id-arrow-icon fa-arrow-right"></i>
+                <span data-translate="backBtn">الرجوع للأرشيف</span>
+            </button>
+        </div>
+
+        <div id="detailsContent" class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            <!-- Left Side: Stamp Image -->
+            <div class="lg:col-span-5 flex justify-center">
+                <div class="stamp-frame p-6 bg-white w-full max-w-md">
+                    <div class="bg-gradient-to-br from-algerian-green to-algerian-red p-1.5 rounded shadow-md">
+                        <img id="stampImage" src="" alt="طابع" class="w-full h-auto rounded bg-white max-h-[500px] object-contain">
+                    </div>
+                    <div class="mt-6 text-center border-t border-gray-100 pt-4">
+                        <p id="stampTitleLabel" class="font-bold text-2xl text-algerian-green mb-1"></p>
+                        <p id="stampIdLabel" class="text-sm font-semibold text-gray-500 bg-gray-100 px-3 py-1.5 rounded-full inline-block mt-2"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Structured Details Card -->
+            <div class="lg:col-span-7 bg-white rounded-2xl border border-gray-200 shadow-sm p-8 space-y-8">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-algerian-green mb-2" data-translate="detailsTitle">تفاصيل الطابع</h2>
+                    <div class="h-1 w-20 bg-heritage-gold rounded-full"></div>
+                </div>
+
+                <!-- شبكة التفاصيل -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <!-- الرقم التسلسلي -->
+                    <div class="bg-gradient-to-br from-algerian-green to-green-700 p-4 rounded-xl text-white shadow-sm flex items-start gap-4">
+                        <div class="p-3 bg-white bg-opacity-20 rounded-lg">
+                            <i class="fas fa-barcode text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-green-100 font-medium mb-1" data-translate="serialNumber">الرقم التسلسلي</p>
+                            <p id="detailId" class="text-lg font-bold">-</p>
+                        </div>
+                    </div>
+
+                    <!-- تاريخ الإصدار -->
+                    <div class="bg-gradient-to-br from-algerian-green to-green-700 p-4 rounded-xl text-white shadow-sm flex items-start gap-4">
+                        <div class="p-3 bg-white bg-opacity-20 rounded-lg">
+                            <i class="fas fa-calendar-alt text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-green-100 font-medium mb-1" data-translate="issueDate">تاريخ الإصدار</p>
+                            <p id="detailDate" class="text-lg font-bold">-</p>
+                        </div>
+                    </div>
+
+                    <!-- القيمة الاسمية -->
+                    <div class="bg-gradient-to-br from-heritage-gold to-yellow-600 p-4 rounded-xl text-white shadow-sm flex items-start gap-4">
+                        <div class="p-3 bg-white bg-opacity-20 rounded-lg">
+                            <i class="fas fa-coins text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-yellow-100 font-medium mb-1" data-translate="faceValue">القيمة الاسمية</p>
+                            <p id="detailValue" class="text-lg font-bold">-</p>
+                        </div>
+                    </div>
+
+                    <!-- الرسام -->
+                    <div class="bg-gradient-to-br from-heritage-gold to-yellow-600 p-4 rounded-xl text-white shadow-sm flex items-start gap-4">
+                        <div class="p-3 bg-white bg-opacity-20 rounded-lg">
+                            <i class="fas fa-palette text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-yellow-100 font-medium mb-1" data-translate="designer">الرسام</p>
+                            <p id="detailDesigner" class="text-lg font-bold">-</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- تفاصيل تقنية إضافية -->
+                <div class="border-t border-gray-100 pt-6 space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-50 pb-3 gap-2">
+                        <span class="text-sm font-semibold text-gray-500 flex items-center gap-2">
+                            <i class="fas fa-print text-algerian-green"></i>
+                            <span data-translate="printer">طريقة الطباعة (الطابعة)</span>
+                        </span>
+                        <span id="detailPrinter" class="text-sm font-bold text-gray-800">-</span>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-50 pb-3 gap-2">
+                        <span class="text-sm font-semibold text-gray-500 flex items-center gap-2">
+                            <i class="fas fa-expand text-algerian-green"></i>
+                            <span data-translate="dimensions">الأبعاد</span>
+                        </span>
+                        <span id="detailDimensions" class="text-sm font-bold text-gray-800">-</span>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-50 pb-3 gap-2">
+                        <span class="text-sm font-semibold text-gray-500 flex items-center gap-2">
+                            <i class="fas fa-border-style text-algerian-green"></i>
+                            <span data-translate="perforation">التخريد / التسنن</span>
+                        </span>
+                        <span id="detailPerforation" class="text-sm font-bold text-gray-800">-</span>
+                    </div>
+
+                    <div id="withdrawalRow" class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-gray-50 pb-3 gap-2 hidden">
+                        <span class="text-sm font-semibold text-gray-500 flex items-center gap-2">
+                            <i class="fas fa-ban text-algerian-green"></i>
+                            <span data-translate="withdrawalDate">تاريخ السحب</span>
+                        </span>
+                        <span id="detailWithdrawal" class="text-sm font-bold text-gray-800">-</span>
+                    </div>
+                </div>
+
+                <!-- الوصف -->
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                    <h4 class="font-bold text-lg text-algerian-green mb-3 flex items-center gap-2">
+                        <i class="fas fa-info-circle"></i>
+                        <span>نبذة عن الطابع</span>
+                    </h4>
+                    <p id="detailDescription" class="text-gray-700 leading-relaxed text-sm whitespace-pre-line">-</p>
+                </div>
+
+                <!-- أزرار الإجراءات -->
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                    <button onclick="downloadImage()" class="flex-1 bg-algerian-green hover:bg-opacity-90 text-white font-bold py-3 px-6 rounded-xl transition flex items-center justify-center gap-2 transform hover:scale-105 btn-animated shadow-md glow-effect">
+                        <i class="fas fa-download"></i>
+                        <span data-translate="downloadBtn">تحميل الصورة</span>
+                    </button>
+                    <button onclick="shareStamp()" class="flex-1 bg-heritage-gold hover:bg-opacity-90 text-white font-bold py-3 px-6 rounded-xl transition flex items-center justify-center gap-2 transform hover:scale-105 btn-animated shadow-md">
+                        <i class="fas fa-share-alt"></i>
+                        <span data-translate="shareBtn">مشاركة</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- رسالة الخطأ -->
+        <div id="errorMessage" class="hidden text-center py-24 text-red-500">
+            <i class="fas fa-exclamation-triangle text-6xl mb-6"></i>
+            <h3 class="text-3xl font-extrabold mb-4">طابع غير موجود</h3>
+            <p class="text-gray-600 mb-8">عذراً، لم نتمكن من العثور على الطابع المطلوب في الأرشيف.</p>
+            <button onclick="location.href='./index.html'" class="px-6 py-3 bg-algerian-green text-white rounded-full font-bold">
+                العودة للأرشيف الرئيسي
+            </button>
+        </div>
+    </main>
+
+    <!-- ===== تذييل الصفحة (Footer) ===== -->
+    <footer class="bg-dark text-white py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-algerian-green p-2 rounded-lg">
+                            <i class="fas fa-envelope-open text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-lg font-bold" data-translate="siteTitle">ذاكرة الجزائر</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed" data-translate="footerAboutDesc">
+                        منصة تاريخية موثوقة للطوابع البريدية الجزائرية، تحافظ على الذاكرة الجماعية للوطن.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold mb-4 text-heritage-gold" data-translate="quickLinks">روابط سريعة</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="./index.html#gallery" class="hover:text-white transition" data-translate="mainGallery">المعرض الرئيسي</a></li>
+                        <li><a href="./index.html#collections" class="hover:text-white transition" data-translate="collections">المجموعات</a></li>
+                        <li><a href="./index.html#about" class="hover:text-white transition" data-translate="about">عن الأرشيف</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold mb-4 text-heritage-gold" data-translate="followUs">تابعنا</h4>
+                    <div class="flex gap-4">
+                        <a href="https://Facebook.com/abdelhadilrs" target="_blank" class="w-12 h-12 bg-algerian-green rounded-full flex items-center justify-center hover:bg-algerian-red transition transform hover:scale-110 duration-300">
+                            <i class="fab fa-facebook-f text-white"></i>
+                        </a>
+                        <a href="https://Twitter.com/larrasabdelhadi" target="_blank" class="w-12 h-12 bg-algerian-green rounded-full flex items-center justify-center hover:bg-algerian-red transition transform hover:scale-110 duration-300">
+                            <i class="fab fa-twitter text-white"></i>
+                        </a>
+                        <a href="https://Instagram.com/abdelhadilrs" target="_blank" class="w-12 h-12 bg-algerian-green rounded-full flex items-center justify-center hover:bg-algerian-red transition transform hover:scale-110 duration-300">
+                            <i class="fab fa-instagram text-white"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 pt-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="text-sm text-gray-400">
+                        <p class="mb-2" data-translate="disclaimer">
+                            <i class="fas fa-info-circle text-heritage-gold ml-2"></i>
+                            <span class="font-semibold">تنويه:</span> هذا الموقع غير مخصص للتجارة أو البيع.
+                        </p>
+                    </div>
+                    <div class="text-sm text-gray-400 md:text-left">
+                        <p>
+                            <span class="text-heritage-gold font-semibold">©</span> <span data-translate="rights">جميع الحقوق محفوظة</span>
+                            <span class="text-heritage-gold">|</span>
+                            <a href="#" class="text-algerian-green hover:text-heritage-gold transition" data-translate="developedBy">تطوير وتصميم Abdelhadi</a>
+                            <span class="text-heritage-gold">|</span> 2026
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const uiTranslations = {
+            ar: {
+                siteTitle: "ذاكرة الجزائر",
+                siteSubtitle: "أرشيف الطوابع الرقمي",
+                mainGallery: "المعرض الرئيسي",
+                eras: "الحقب الزمنية",
+                collections: "المجموعات",
+                about: "عن الأرشيف",
+                detailsTitle: "تفاصيل الطابع",
+                serialNumber: "الرقم التسلسلي",
+                issueDate: "تاريخ الإصدار",
+                faceValue: "القيمة الاسمية",
+                designer: "الرسام",
+                printer: "طريقة الطباعة (الطابعة)",
+                perforation: "التخريد / التسنن",
+                dimensions: "الأبعاد",
+                withdrawalDate: "تاريخ السحب",
+                downloadBtn: "تحميل الصورة",
+                shareBtn: "مشاركة",
+                backBtn: "الرجوع للأرشيف",
+                footerAboutDesc: "منصة تاريخية موثوقة للطوابع البريدية الجزائرية، تحافظ على الذاكرة الجماعية للوطن.",
+                quickLinks: "روابط سريعة",
+                followUs: "تابعنا",
+                disclaimer: "<strong>تنويه:</strong> هذا الموقع غير مخصص للتجارة أو البيع. جميع الطوابع المعروضة هي لأغراض توثيقية وتاريخية حصرياً.",
+                rights: "جميع الحقوق محفوظة",
+                developedBy: "تطوير وتصميم Abdelhadi"
+            },
+            en: {
+                siteTitle: "Algeria Memory",
+                siteSubtitle: "Digital Stamps Archive",
+                mainGallery: "Main Gallery",
+                eras: "Eras",
+                collections: "Collections",
+                about: "About Archive",
+                detailsTitle: "Stamp Details",
+                serialNumber: "Serial Number",
+                issueDate: "Issue Date",
+                faceValue: "Face Value",
+                designer: "Designer / Artist",
+                printer: "Printing Method / Printer",
+                perforation: "Perforation",
+                dimensions: "Dimensions",
+                withdrawalDate: "Withdrawal Date",
+                downloadBtn: "Download Image",
+                shareBtn: "Share",
+                backBtn: "Back to Archive",
+                footerAboutDesc: "A trusted historical platform for Algerian postage stamps, preserving the nation's collective memory.",
+                quickLinks: "Quick Links",
+                followUs: "Follow Us",
+                disclaimer: "<strong>Disclaimer:</strong> This site is not for commerce or sale. All stamps displayed are exclusively for documentary and historical purposes.",
+                rights: "All rights reserved",
+                developedBy: "Developed & Designed by Abdelhadi"
+            }
+        };
+
+        let currentLang = localStorage.getItem('lang') || 'ar';
+        let currentStamp = null;
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('lang', currentLang);
+            applyLanguage();
+            loadStampDetails();
+        }
+
+        function applyLanguage() {
+            const translations = uiTranslations[currentLang];
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+
+            // ترجمة النصوص ذات data-translate
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.getAttribute('data-translate');
+                if (translations[key]) {
+                    el.innerHTML = translations[key];
+                }
+            });
+
+            // تحديث زر اللغة
+            const toggleBtn = document.getElementById('langToggle');
+            toggleBtn.textContent = currentLang === 'ar' ? 'English' : 'العربية';
+
+            // تحديث اتجاه أيقونة السهم
+            const arrowIcon = document.querySelector('.id-arrow-icon');
+            if (arrowIcon) {
+                if (currentLang === 'ar') {
+                    arrowIcon.className = 'fas id-arrow-icon fa-arrow-right';
+                } else {
+                    arrowIcon.className = 'fas id-arrow-icon fa-arrow-left';
+                }
+            }
+        }
+
+        // قراءة معرّف الطابع من الـ URL وتحميل بياناته
+        function loadStampDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const stampId = urlParams.get('id');
+
+            if (!stampId) {
+                showError();
+                return;
+            }
+
+            const dataUrl = currentLang === 'ar' ? './stamps_data.json' : './stamps_data_en.json';
+
+            fetch(dataUrl)
+                .then(res => res.json())
+                .then(data => {
+                    const stamp = data.find(s => s.id === stampId);
+                    if (!stamp) {
+                        showError();
+                        return;
+                    }
+                    currentStamp = stamp;
+                    renderStampDetails(stamp);
+                })
+                .catch(err => {
+                    console.error('Error loading stamp:', err);
+                    showError();
+                });
+        }
+
+        function renderStampDetails(stamp) {
+            document.getElementById('detailsContent').classList.remove('hidden');
+            document.getElementById('errorMessage').classList.add('hidden');
+
+            const isAr = currentLang === 'ar';
+
+            // البيانات الأساسية
+            const title = isAr ? stamp.title_ar : stamp.theme_en;
+            const imagePath = stamp.image_path;
+            const code = stamp.id;
+
+            // تحديد قيم الحقول بناءً على هيكلة لغة الملف
+            let date = '';
+            let value = '';
+            let designer = '';
+            let printer = '';
+            let dimensions = '';
+            let perforation = '';
+            let withdrawal = '';
+            let description = '';
+
+            if (isAr) {
+                const det = stamp.details || {};
+                date = det.issue_date || '-';
+                value = det.value ? `${det.value} د.ج` : '-';
+                designer = det.designer || '-';
+                printer = det.printer || '-';
+                dimensions = det.dimensions || '-';
+                perforation = det.perforation || '-';
+                withdrawal = det.withdrawal_date || '';
+                description = stamp.description_ar || '-';
+            } else {
+                date = stamp.issue_date || '-';
+                value = stamp.value ? `${stamp.value} DA` : '-';
+                designer = stamp.designer || '-';
+                printer = stamp.printer || '-';
+                dimensions = stamp.dimensions || '-';
+                perforation = stamp.perforation || '-';
+                withdrawal = ''; // غير موجود بوضوح في ملف الإنجليزي
+                description = stamp.raw_text || '-';
+            }
+
+            // تصحيح مسار الصورة ليكون نسبياً للتوافق التام مع أي خادم أو مسار محلي
+            let correctedImagePath = imagePath || '';
+            if (correctedImagePath.startsWith('/')) {
+                correctedImagePath = '.' + correctedImagePath;
+            }
+
+            // تطبيق القيم على عناصر الصفحة
+            document.getElementById('stampImage').src = correctedImagePath;
+            document.getElementById('stampTitleLabel').textContent = title;
+            document.getElementById('stampIdLabel').textContent = code;
+
+            document.getElementById('detailId').textContent = code;
+            document.getElementById('detailDate').textContent = date;
+            document.getElementById('detailValue').textContent = value;
+            document.getElementById('detailDesigner').textContent = designer;
+            document.getElementById('detailPrinter').textContent = printer;
+            document.getElementById('detailDimensions').textContent = dimensions;
+            document.getElementById('detailPerforation').textContent = perforation;
+
+            // تاريخ السحب
+            const withdrawalRow = document.getElementById('withdrawalRow');
+            if (withdrawal && withdrawal.trim() !== '') {
+                document.getElementById('detailWithdrawal').textContent = withdrawal;
+                withdrawalRow.classList.remove('hidden');
+            } else {
+                withdrawalRow.classList.add('hidden');
+            }
+
+            // نبذة أو وصف
+            document.getElementById('detailDescription').textContent = description;
+
+            // تحديث عنوان التبويب
+            document.title = `${title} | ${isAr ? 'ذاكرة الجزائر' : 'Algeria Memory'}`;
+        }
+
+        function showError() {
+            document.getElementById('detailsContent').classList.add('hidden');
+            document.getElementById('errorMessage').classList.remove('hidden');
+        }
+
+        // تحميل الصورة للجهاز
+        function downloadImage() {
+            if (!currentStamp) return;
+            const link = document.createElement('a');
+            let imagePath = currentStamp.image_path || '';
+            if (imagePath.startsWith('/')) {
+                imagePath = '.' + imagePath;
+            }
+            link.href = imagePath;
+            link.download = `stamp-${currentStamp.id}.png`;
+            link.click();
+        }
+
+        // مشاركة رابط الطابع
+        function shareStamp() {
+            if (!currentStamp) return;
+            const url = window.location.href;
+            const title = currentLang === 'ar' ? currentStamp.title_ar : currentStamp.theme_en;
+            const text = `${title} (${currentStamp.id}) - ${currentLang === 'ar' ? 'أرشيف الطوابع البريدية الجزائرية' : 'Algerian Stamps Digital Archive'}`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: title,
+                    text: text,
+                    url: url
+                }).catch(err => console.log('Share canceled', err));
+            } else {
+                navigator.clipboard.writeText(url).then(() => {
+                    alert(currentLang === 'ar' ? 'تم نسخ الرابط للحافظة!' : 'Link copied to clipboard!');
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            applyLanguage();
+            loadStampDetails();
+        });
+    </script>
+</body>
+</html>
